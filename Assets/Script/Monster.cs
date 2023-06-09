@@ -5,7 +5,6 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     Transform target;
-    Vector3 direction;
     public float speed = 2.0f; 
     Player player;
     float velocity;
