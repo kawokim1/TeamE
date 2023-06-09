@@ -9,6 +9,8 @@ public class Monster : MonoBehaviour
     public float speed = 2.0f; 
     Player player;
     float velocity;
+    private Quaternion targetRotation;
+    public float rotationSpeed = 5.0f;
 
     bool tagetOn = false;
     private void Awake()
@@ -28,7 +30,6 @@ public class Monster : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             tagetOn = true;
-           //MoveToTarget();
 
         }
 
@@ -39,7 +40,7 @@ public class Monster : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             tagetOn = false;
-            //MoveToTarget();
+           
 
         }
     }
@@ -47,7 +48,11 @@ public class Monster : MonoBehaviour
 
     public void MoveToTarget()
     {
-        
+        Vector3 direction = target.position - transform.position;
+        direction.y = 0; 
+        targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime); 
+
         direction = (target.position - transform.position).normalized;
 
         velocity =  speed * Time.deltaTime;
