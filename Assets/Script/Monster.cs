@@ -11,12 +11,14 @@ public class Monster : MonoBehaviour
     float velocity;
     private Quaternion targetRotation;
     public float rotationSpeed = 5.0f;
+    public float Distance = 1;
 
     bool tagetOn = false;
     private void Awake()
     {
         player = FindObjectOfType<Player>();
         target = player.transform;
+
     }
 
 
@@ -53,13 +55,26 @@ public class Monster : MonoBehaviour
         targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime); 
 
-        direction = (target.position - transform.position).normalized;
+        float distance = Vector3.Distance(target.position, transform.position);
+        if (distance > Distance)
+        {
+            direction = (target.position - transform.position).normalized;
 
-        velocity =  speed * Time.deltaTime;
-       
-        transform.position = new Vector3(transform.position.x + (direction.x * velocity),
-                                               transform.position.y + (direction.y * velocity),
-                                                  transform.position.z + (direction.z * velocity));
+            velocity = speed * Time.deltaTime;
+
+            transform.position = new Vector3(transform.position.x + (direction.x * velocity),
+                                                   transform.position.y + (direction.y * velocity),
+                                                      transform.position.z + (direction.z * velocity));
+        }
+        if (distance <= Distance)
+        {
+            Attack();
+        }
+        
+    }
+    public void Attack()
+    {
+        
     }
 }
 
