@@ -19,6 +19,7 @@ public class Monster : MonoBehaviour
     bool targetOn = false;
     bool runAway = false;
     Vector3 direction;
+  
     
 
 
@@ -28,24 +29,23 @@ public class Monster : MonoBehaviour
         target = player.transform;
         animator = GetComponent<Animator>();
         //weapon = transform.GetChild(3).gameObject;
+       
     }
 
 
     private void Update()
     {
         if (targetOn)
-        {
-            
+        { 
             MoveToTarget();
         }
         if(runAway)
         {
-            StartCoroutine(BackToRespawn());
+            BackToRespawn();
         }
-        else
-        {
-            Move();
-        }
+        
+           
+        
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -67,11 +67,21 @@ public class Monster : MonoBehaviour
 
 
         }
+        //if(other.CompareTag("SpawnArea"))
+        //{
+        //    StartCoroutine(Stop() );
+        //}
     }
 
-    IEnumerator BackToRespawn()
+    void BackToRespawn()
     {
-        yield return new WaitForSeconds(0.1f);
+
+        Transform recog = transform.GetChild(2); 
+
+        Collider recogArea = recog.GetComponent<Collider>();
+
+        recogArea.enabled = false;
+
         Vector3 direction = spawnPosition - transform.position;
         direction.y = 0;
         if (direction != Vector3.zero)
@@ -91,10 +101,10 @@ public class Monster : MonoBehaviour
                                                    transform.position.y + (direction.y * velocity),
                                                       transform.position.z + (direction.z * velocity));
         }
-        else
+       if(distance < 0.1f)
         {
             runAway = false;
-            Move();
+            recogArea.enabled = true;
         }
            
        
