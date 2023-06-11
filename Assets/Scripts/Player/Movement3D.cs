@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
-
+/// <summary>
+/// 이것은 사용되지 않는 더미 데이터
+/// </summary>
 public class Movement3D : MonoBehaviour
 {
 	[SerializeField]
