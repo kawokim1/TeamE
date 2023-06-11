@@ -37,6 +37,24 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Walk"",
+                    ""type"": ""Button"",
+                    ""id"": ""86321e52-9820-45b7-b71f-2c0db85a2666"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""d4a912dc-c6c2-464d-bf7a-13a102ae1844"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""CameraLook"",
                     ""type"": ""Value"",
                     ""id"": ""43ed8d66-38fb-420c-b80f-8cd3d0c2da7f"",
@@ -132,6 +150,28 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3fb616c2-26c9-400f-bbc7-0f0b9fb9a9e8"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Walk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96288069-5d8d-4691-8e70-863c8d07b2dc"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -141,6 +181,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        m_Player_Walk = m_Player.FindAction("Walk", throwIfNotFound: true);
+        m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_CameraLook = m_Player.FindAction("CameraLook", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
     }
@@ -205,6 +247,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Movement;
+    private readonly InputAction m_Player_Walk;
+    private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_CameraLook;
     private readonly InputAction m_Player_Zoom;
     public struct PlayerActions
@@ -212,6 +256,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         private @PlayerInputAction m_Wrapper;
         public PlayerActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
+        public InputAction @Walk => m_Wrapper.m_Player_Walk;
+        public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @CameraLook => m_Wrapper.m_Player_CameraLook;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -226,6 +272,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @Walk.started += instance.OnWalk;
+            @Walk.performed += instance.OnWalk;
+            @Walk.canceled += instance.OnWalk;
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
             @CameraLook.started += instance.OnCameraLook;
             @CameraLook.performed += instance.OnCameraLook;
             @CameraLook.canceled += instance.OnCameraLook;
@@ -239,6 +291,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @Walk.started -= instance.OnWalk;
+            @Walk.performed -= instance.OnWalk;
+            @Walk.canceled -= instance.OnWalk;
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
             @CameraLook.started -= instance.OnCameraLook;
             @CameraLook.performed -= instance.OnCameraLook;
             @CameraLook.canceled -= instance.OnCameraLook;
@@ -265,6 +323,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnWalk(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
         void OnCameraLook(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
     }

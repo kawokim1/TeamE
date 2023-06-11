@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace player
 {
-    public class RunState : PlayerState
+    public class WalkState : PlayerState
     {
         PlayerInputSystem playerInputSystem;
-        State state = State.RUN;
-        private float moveSpeed = 5.0f;
-        public RunState(PlayerInputSystem playerInputSystem)
+        State state = State.WALK;
+        private float moveSpeed = 3.0f;
+        public WalkState(PlayerInputSystem playerInputSystem)
         {
             this.playerInputSystem = playerInputSystem;
         }
@@ -29,5 +29,3 @@ namespace player
 
     }
 }
-
-

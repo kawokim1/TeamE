@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace player
 {
-    public class RunState : PlayerState
+    public class SprintState : PlayerState
     {
         PlayerInputSystem playerInputSystem;
-        State state = State.RUN;
-        private float moveSpeed = 5.0f;
-        public RunState(PlayerInputSystem playerInputSystem)
+        State state = State.SPRINT;
+        private float moveSpeed = 8.0f;
+        public SprintState(PlayerInputSystem playerInputSystem)
         {
             this.playerInputSystem = playerInputSystem;
         }
@@ -29,5 +30,3 @@ namespace player
 
     }
 }
-
-

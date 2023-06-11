@@ -4,12 +4,11 @@ using UnityEngine;
 
 namespace player
 {
-    public class RunState : PlayerState
+    public class IdleState : PlayerState
     {
         PlayerInputSystem playerInputSystem;
-        State state = State.RUN;
-        private float moveSpeed = 5.0f;
-        public RunState(PlayerInputSystem playerInputSystem)
+        State state = State.IDLE;
+        public IdleState(PlayerInputSystem playerInputSystem)
         {
             this.playerInputSystem = playerInputSystem;
         }
@@ -22,12 +21,7 @@ namespace player
 
         public void MoveLogic()
         {
-            playerInputSystem.MoveToDir();
-            playerInputSystem.PlayerMove(moveSpeed);
-            playerInputSystem.PlayerAnimoatrChage((int)state);
-        }
 
+        }
     }
 }
-
-
