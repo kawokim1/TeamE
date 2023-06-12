@@ -12,7 +12,11 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+<<<<<<< HEAD
 /[Aa]ssets/[Ee]xception[Ff]older
+=======
+/[Aa]ssets/[Ee]xceptionFolder/
+>>>>>>> HanJunHee
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
