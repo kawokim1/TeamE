@@ -459,10 +459,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51604476117822080, guid: 2c86504f7c118f04281f8f8090691e73, type: 3}
       propertyPath: m_Name
-      value: Player_Female
-      objectReference: {fileID: 0}
-    - target: {fileID: 51604476117822080, guid: 2c86504f7c118f04281f8f8090691e73, type: 3}
-      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 863711824261083194, guid: 2c86504f7c118f04281f8f8090691e73, type: 3}
@@ -509,26 +505,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 897971347992842038, guid: 2c86504f7c118f04281f8f8090691e73, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c86504f7c118f04281f8f8090691e73, type: 3}
---- !u!1 &919132148295709513 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 51604476117822080, guid: 2c86504f7c118f04281f8f8090691e73, type: 3}
-  m_PrefabInstance: {fileID: 897971347514989001}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5866666020621726602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148295709513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71703f3a896e7704ba955cedf4587246, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

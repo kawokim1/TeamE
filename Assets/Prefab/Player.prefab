@@ -44,9 +44,10 @@ GameObject:
   - component: {fileID: 6709423944243292736}
   - component: {fileID: 897971347992842038}
   - component: {fileID: 897971347992842039}
+  - component: {fileID: 489726789908939171}
   m_Layer: 0
-  m_Name: Player_Female
-  m_TagString: Untagged
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,7 +103,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
@@ -120,6 +121,18 @@ CapsuleCollider:
   m_Height: 1.3817095
   m_Direction: 1
   m_Center: {x: 0.007962555, y: 0.690492, z: 0.022405177}
+--- !u!114 &489726789908939171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51604476117822080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f26e572c7911644d85c2371fa5e88df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &92866557536451702
 GameObject:
   m_ObjectHideFlags: 0
