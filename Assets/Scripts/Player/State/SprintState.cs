@@ -25,7 +25,7 @@ namespace player
         {
             playerInputSystem.MoveToDir();
             playerInputSystem.PlayerMove(moveSpeed);
-            playerInputSystem.PlayerAnimoatrChage((int)state);
+            //playerInputSystem.PlayerAnimoatrChage((int)state);
         }
 
     }

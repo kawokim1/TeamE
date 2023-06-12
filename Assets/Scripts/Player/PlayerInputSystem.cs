@@ -127,10 +127,6 @@ namespace player
             inputActions.Player.Disable();
         }
 
-        private void Update()
-        {
-
-        }
         private void FixedUpdate()
         {
             playerCurrentStates.MoveLogic();
