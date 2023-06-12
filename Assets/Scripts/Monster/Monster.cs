@@ -4,33 +4,21 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    //몬스터가 쫒는 목표(플레이어)
     Transform target;
-    //몬스터가 플레이어를 추격하는 속도
     public float speed = 2.0f;
-    //몬스터가 스폰포지션으로 돌아가는 속도
     public float backSpeed = 4.0f;
-
-    //몬스터가 스폰포지션으로 돌아가는 속도조절을 위한 멤버변수
+    Player player;
     float velocity;
-    //플레이어의 방향 멤버 변수
     private Quaternion targetRotation;
-    //타겟을 쳐다보는데 걸리는 속도
     public float rotationSpeed = 5.0f;
-    //몬스터와 플레이어의 최대 근접 거리 및 공격발동 거리
     public float Distance = 1;
-    //몬스터의 스폰 포지션
-    Vector3 spawnPosition = Vector3.zero;
-    //스폰포지션의 방향
-    private Quaternion spawnRotation;
-    //몬스터의 현재 상태에 대한 플래그
-    bool targetOn = false;
-    bool runAway = false;
-   
-    Vector3 direction;
     Animator animator;
     GameObject weapon;
-    Player player;
+    Vector3 spawnPosition = Vector3.zero;
+    private Quaternion spawnRotation;
+    bool targetOn = false;
+    bool runAway = false;
+    Vector3 direction;
   
     
 
@@ -84,17 +72,15 @@ public class Monster : MonoBehaviour
         //    StartCoroutine(Stop() );
         //}
     }
-   /// <summary>
-   /// 몬스터가 리스폰 지역으로 돌아가는 함수
-   /// </summary>
+
     void BackToRespawn()
     {
 
-        Transform recog = transform.GetChild(2);                      
+        Transform recog = transform.GetChild(2); 
 
-        Collider recogArea = recog.GetComponent<Collider>();           
+        Collider recogArea = recog.GetComponent<Collider>();
 
-        recogArea.enabled = false;                                   
+        recogArea.enabled = false;
 
         Vector3 direction = spawnPosition - transform.position;
         direction.y = 0;
@@ -123,11 +109,6 @@ public class Monster : MonoBehaviour
            
        
     }
-
-    /// <summary>
-    /// 플레이어와 몬스터가 3초이상 몬스터 인식범위에서 떨어져있을시 발동되는 코루틴
-    /// </summary>
-    /// <returns></returns>
     IEnumerator Stop()
     {
         yield return new WaitForSeconds(3);
@@ -135,9 +116,6 @@ public class Monster : MonoBehaviour
         runAway = true;
     }
       
-    /// <summary>
-    /// 몬스터가 플레이어를 추격하는 함수
-    /// </summary>
     public void MoveToTarget()
     {
         Vector3 direction = target.position - transform.position;
