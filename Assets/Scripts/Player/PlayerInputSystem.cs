@@ -57,6 +57,7 @@ namespace player
 
         //³«ÇÏ
         int groundLayer;
+        bool fallingDirYSetComplete = false;
 
 
         private void Awake()
@@ -170,15 +171,16 @@ namespace player
             if (characterController.isGrounded == false)
             {
                 moveDirection.y += gravity * Time.fixedDeltaTime;
+
+                if (!Physics.Raycast(transform.position, Vector3.down, characterController.height * 0.5f + 0.3f, groundLayer) && !fallingDirYSetComplete)
+                {
+                    fallingDirYSetComplete = true;
+                    moveDirection.y = 0;
+                }
             }
             else
             {
-                if(!Physics.Raycast(transform.position, Vector3.down, characterController.height * 0.5f + 0.3f, groundLayer))
-                {
-                    //Debug.Log("µé¾î¿È");
-                    //Debug.DrawRay(transform.position, Vector3.down, Color.red, characterController.height * 0.5f + 0.3f);
-                    moveDirection.y = 0;
-                }
+                fallingDirYSetComplete = false;
             }
             
             characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime);
