@@ -343,14 +343,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4821352629301259722, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821352629301259723, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4999659514013741679, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -401,29 +393,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
---- !u!1 &1771923719 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5632186165776918741, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
-  m_PrefabInstance: {fileID: 1519418036}
-  m_PrefabAsset: {fileID: 0}
---- !u!143 &1771923725
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771923719}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1
-  m_Radius: 0.3
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!4 &1847216773 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3276604011081482452, guid: c043420a49f399d4794782a0d21b6a34, type: 3}
