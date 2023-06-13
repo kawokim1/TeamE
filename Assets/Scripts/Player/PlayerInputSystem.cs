@@ -26,8 +26,6 @@ namespace player
 
 
         //현재 상태
-
-
         public PlayerState playerCurrentStates;
         PlayerState idleState;
         PlayerState walkState;
@@ -56,7 +54,10 @@ namespace player
         //점프
         public float lastMemorySpeed = 0.0f;
         bool isJumping = false;
-        
+
+        //낙하
+        int groundLayer;
+
 
         private void Awake()
         {
@@ -73,7 +74,9 @@ namespace player
             runState = new RunState(this);
             sprintState = new SprintState(this);
             jumpState = new JumpState(this, characterController);
-            
+
+            //레이어 
+            groundLayer = 1 << LayerMask.NameToLayer("Ground");
 
             playerCurrentStates = idleState;
         }
@@ -168,10 +171,16 @@ namespace player
             {
                 moveDirection.y += gravity * Time.fixedDeltaTime;
             }
-            //else
-            //{
-            //    moveDirection.y = 0;
-            //}
+            else
+            {
+                if(!Physics.Raycast(transform.position, Vector3.down, characterController.height * 0.5f + 0.3f, groundLayer))
+                {
+                    //Debug.Log("들어옴");
+                    //Debug.DrawRay(transform.position, Vector3.down, Color.red, characterController.height * 0.5f + 0.3f);
+                    moveDirection.y = 0;
+                }
+            }
+            
             characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime);
         }
 
