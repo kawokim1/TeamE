@@ -12,7 +12,8 @@ namespace player
         IDLE = 0,
         WALK,
         RUN,
-        SPRINT
+        SPRINT,
+        Jump
     }
     public class PlayerInputSystem : MonoBehaviour
     {
@@ -20,7 +21,7 @@ namespace player
         //컴퍼넌트
         //Rigidbody playerRigidbody;
         PlayerInputAction inputActions;
-        CharacterController characterController;
+        public CharacterController characterController;
         Animator animator;
 
 
@@ -32,6 +33,7 @@ namespace player
         PlayerState walkState;
         PlayerState runState; 
         PlayerState sprintState;
+        PlayerState jumpState;
 
         //애니메이션
         //readonly int InputYString = Animator.StringToHash("InputY");
@@ -51,6 +53,11 @@ namespace player
         Vector3 targetDirection = Vector3.zero; //회전하는 방향
         private float rotationSpeed = 7f;
 
+        //점프
+        public float lastMemorySpeed = 0.0f;
+        bool isJumping = false;
+        
+
         private void Awake()
         {
             //playerRigidbody = GetComponent<Rigidbody>();
@@ -65,6 +72,7 @@ namespace player
             walkState = new WalkState(this);
             runState = new RunState(this);
             sprintState = new SprintState(this);
+            jumpState = new JumpState(this, characterController);
             
 
             playerCurrentStates = idleState;
@@ -86,12 +94,26 @@ namespace player
 
             //Control 걷기
             inputActions.Player.Walk.performed += WalkButton;
+
+            //Space 점프
+            inputActions.Player.Jump.performed += JumpButton;
+        }
+
+        private void JumpButton(InputAction.CallbackContext _)
+        {
+            if (characterController.isGrounded == true)
+            {
+                jumpState.EnterState();
+                isJumping = true;
+                moveDirection.y = 3f;
+            }
         }
 
         private void WalkButton(InputAction.CallbackContext _)
         {
-            walkState.EnterState();
             walkBool = walkBool ? false : true;
+            if(walkBool)
+                walkState.EnterState();
         }
 
         private void SprintButton(InputAction.CallbackContext _)
@@ -102,23 +124,30 @@ namespace player
 
         private void MovementLogic(InputAction.CallbackContext context)
         {
+            //if (isJumping)
+            //    return;
+
             movementInput = context.ReadValue<Vector2>();
             moveDir.x = movementInput.x;
             moveDir.z = movementInput.y;
 
 
-            if (movementInput == Vector2.zero)
+            if(!isJumping)
             {
-                idleState.EnterState();
+                if (movementInput == Vector2.zero)
+                {
+                    idleState.EnterState();
+                }
+                else if (playerCurrentStates != sprintState && !walkBool)
+                {
+                    runState.EnterState();
+                }
+                else if (walkBool)
+                {
+                    walkState.EnterState();
+                }
             }
-            else if(playerCurrentStates != sprintState && !walkBool)
-            {
-                runState.EnterState();
-            }
-            else if(walkBool)
-            {
-                walkState.EnterState();
-            }
+           
         }
 
 
@@ -144,6 +173,25 @@ namespace player
             //    moveDirection.y = 0;
             //}
             characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime);
+        }
+
+
+        public void UseGravity(float gravity = -9.81f)
+        {
+            if (characterController.isGrounded == false)
+            {
+                moveDirection.y += gravity * Time.fixedDeltaTime;
+            }
+            else
+            {
+                isJumping = false;
+                MoveToDir();
+                if (movementInput == Vector2.zero)
+                {
+                    idleState.EnterState();
+                }
+
+            }
         }
 
         public void PlayerAnimoatrChage(int state)
