@@ -184,9 +184,11 @@ public class Monster : MonoBehaviour
 
 
             characterController.Move(direction * speed * Time.fixedDeltaTime);
+            StartCoroutine(Back());
         }
         if (distance <= Distance)
         {
+            StopAllCoroutines();
             Attack();
         }
         
@@ -201,7 +203,12 @@ public class Monster : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
+    IEnumerator Back()
+    {
+        yield return new WaitForSeconds(5);
+        targetOn = false;
+         BackToRespawn();
+    }
 }
 
 
