@@ -206,13 +206,21 @@ namespace player
                 {
                     idleState.EnterState();
                 }
-
+                else if (playerCurrentStates != sprintState && !walkBool)
+                {
+                    runState.EnterState();
+                }
+                else if (walkBool)
+                {
+                    walkState.EnterState();
+                }
             }
         }
 
         public void PlayerAnimoatrChage(int state)
         {
             animator.SetInteger(AnimatorState, state);
+            //Debug.Log(state);
         }
 
         public void MoveToDir()
