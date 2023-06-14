@@ -4,13 +4,14 @@ using UnityEngine;
 
 namespace player
 {
+    //이제는 사용되지 않습니다 InAirState로 합병
     public class JumpState : PlayerState
     {
         PlayerInputSystem playerInputSystem;
         CharacterController characterController;
         //Rigidbody rigidbody;
         //Transform transform;
-        State state = State.Jump;
+        //State state = State.Jump;
         private float jumpForce = 3.0f;
         float lastSpeed = 0.0f;
 
@@ -27,6 +28,10 @@ namespace player
             playerInputSystem.playerCurrentStates = this;
             playerInputSystem.moveDirection.y = jumpForce;
             lastSpeed = playerInputSystem.lastMemorySpeed;
+        }
+        public void EnterState(float a)
+        {
+
         }
 
 

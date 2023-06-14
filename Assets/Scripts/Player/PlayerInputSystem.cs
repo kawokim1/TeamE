@@ -13,7 +13,7 @@ namespace player
         WALK,
         RUN,
         SPRINT,
-        Jump
+        InAir
     }
     public class PlayerInputSystem : MonoBehaviour
     {
@@ -31,7 +31,8 @@ namespace player
         PlayerState walkState;
         PlayerState runState; 
         PlayerState sprintState;
-        PlayerState jumpState;
+        //PlayerState jumpState;
+        PlayerState inAirState;
 
         //애니메이션
         //readonly int InputYString = Animator.StringToHash("InputY");
@@ -74,7 +75,8 @@ namespace player
             walkState = new WalkState(this);
             runState = new RunState(this);
             sprintState = new SprintState(this);
-            jumpState = new JumpState(this, characterController);
+            //jumpState = new JumpState(this, characterController);
+            inAirState = new InAirState(this, characterController);
 
             //레이어 
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
@@ -107,7 +109,8 @@ namespace player
         {
             if (characterController.isGrounded == true)
             {
-                jumpState.EnterState();
+                //jumpState.EnterState();
+                inAirState.EnterState();
                 isJumping = true;
                 moveDirection.y = 3f;
             }
@@ -176,6 +179,8 @@ namespace player
                 {
                     fallingDirYSetComplete = true;
                     moveDirection.y = 0;
+                    inAirState.EnterState();
+                    isJumping = true;
                 }
             }
             else
