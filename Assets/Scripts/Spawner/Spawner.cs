@@ -15,12 +15,12 @@ public class Spawner : MonoBehaviour
     private void Awake()
     {
         
-        Collider collider = gameObject.GetComponent<Collider>();
-        if (collider != null)
-        {
-           Radius = collider.bounds.extents.magnitude;
+        //Collider collider = gameObject.GetComponent<Collider>();
+        //if (collider != null)
+        //{
+        //   Radius = collider.bounds.extents.magnitude;
 
-        }
+        //}
     }
     private void Start()
     {
@@ -30,15 +30,15 @@ public class Spawner : MonoBehaviour
     {
         //Spawn();
     }
-    public void SpawnArea(Transform spawnTransform, float radius)
-    {
+    //public void SpawnArea(Transform spawnTransform, float radius)
+    //{
         
-        Vector3 getPoint = Random.onUnitSphere ;
-        getPoint.y = 0.0f;
+    //    Vector3 getPoint = Random.onUnitSphere ;
+    //    getPoint.y = 0.0f;
 
-        float r = Random.Range(0.0f, radius);
-        spawnTransform.position = (getPoint *r) +transform.position;
-    }
+    //    float r = Random.Range(0.0f, radius);
+    //    spawnTransform.position = (getPoint *r) +transform.position;
+    //}
 
     //void Spawn()
     //{
