@@ -12,7 +12,8 @@ namespace player
         IDLE = 0,
         WALK,
         RUN,
-        SPRINT
+        SPRINT,
+        InAir
     }
     public class PlayerInputSystem : MonoBehaviour
     {
@@ -20,18 +21,18 @@ namespace player
         //컴퍼넌트
         //Rigidbody playerRigidbody;
         PlayerInputAction inputActions;
-        CharacterController characterController;
+        public CharacterController characterController;
         Animator animator;
 
 
         //현재 상태
-
-
         public PlayerState playerCurrentStates;
         PlayerState idleState;
         PlayerState walkState;
         PlayerState runState; 
         PlayerState sprintState;
+        //PlayerState jumpState;
+        PlayerState inAirState;
 
         //애니메이션
         //readonly int InputYString = Animator.StringToHash("InputY");
@@ -51,6 +52,15 @@ namespace player
         Vector3 targetDirection = Vector3.zero; //회전하는 방향
         private float rotationSpeed = 7f;
 
+        //점프
+        public float lastMemorySpeed = 0.0f;
+        bool isJumping = false;
+
+        //낙하
+        int groundLayer;
+        bool fallingDirYSetComplete = false;
+
+
         private void Awake()
         {
             //playerRigidbody = GetComponent<Rigidbody>();
@@ -65,7 +75,11 @@ namespace player
             walkState = new WalkState(this);
             runState = new RunState(this);
             sprintState = new SprintState(this);
-            
+            //jumpState = new JumpState(this, characterController);
+            inAirState = new InAirState(this, characterController);
+
+            //레이어 
+            groundLayer = 1 << LayerMask.NameToLayer("Ground");
 
             playerCurrentStates = idleState;
         }
@@ -86,12 +100,27 @@ namespace player
 
             //Control 걷기
             inputActions.Player.Walk.performed += WalkButton;
+
+            //Space 점프
+            inputActions.Player.Jump.performed += JumpButton;
+        }
+
+        private void JumpButton(InputAction.CallbackContext _)
+        {
+            if (characterController.isGrounded == true)
+            {
+                //jumpState.EnterState();
+                inAirState.EnterState();
+                isJumping = true;
+                moveDirection.y = 3f;
+            }
         }
 
         private void WalkButton(InputAction.CallbackContext _)
         {
-            walkState.EnterState();
             walkBool = walkBool ? false : true;
+            if(walkBool)
+                walkState.EnterState();
         }
 
         private void SprintButton(InputAction.CallbackContext _)
@@ -102,23 +131,30 @@ namespace player
 
         private void MovementLogic(InputAction.CallbackContext context)
         {
+            //if (isJumping)
+            //    return;
+
             movementInput = context.ReadValue<Vector2>();
             moveDir.x = movementInput.x;
             moveDir.z = movementInput.y;
 
 
-            if (movementInput == Vector2.zero)
+            if(!isJumping)
             {
-                idleState.EnterState();
+                if (movementInput == Vector2.zero)
+                {
+                    idleState.EnterState();
+                }
+                else if (playerCurrentStates != sprintState && !walkBool)
+                {
+                    runState.EnterState();
+                }
+                else if (walkBool)
+                {
+                    walkState.EnterState();
+                }
             }
-            else if(playerCurrentStates != sprintState && !walkBool)
-            {
-                runState.EnterState();
-            }
-            else if(walkBool)
-            {
-                walkState.EnterState();
-            }
+           
         }
 
 
@@ -138,17 +174,53 @@ namespace player
             if (characterController.isGrounded == false)
             {
                 moveDirection.y += gravity * Time.fixedDeltaTime;
+
+                if (!Physics.Raycast(transform.position, Vector3.down, characterController.height * 0.5f + 0.3f, groundLayer) && !fallingDirYSetComplete)
+                {
+                    fallingDirYSetComplete = true;
+                    moveDirection.y = 0;
+                    inAirState.EnterState();
+                    isJumping = true;
+                }
             }
-            //else
-            //{
-            //    moveDirection.y = 0;
-            //}
+            else
+            {
+                fallingDirYSetComplete = false;
+            }
+            
             characterController.Move(moveDirection * moveSpeed * Time.fixedDeltaTime);
+        }
+
+
+        public void UseGravity(float gravity = -9.81f)
+        {
+            if (characterController.isGrounded == false)
+            {
+                moveDirection.y += gravity * Time.fixedDeltaTime;
+            }
+            else
+            {
+                isJumping = false;
+                MoveToDir();
+                if (movementInput == Vector2.zero)
+                {
+                    idleState.EnterState();
+                }
+                else if (playerCurrentStates != sprintState && !walkBool)
+                {
+                    runState.EnterState();
+                }
+                else if (walkBool)
+                {
+                    walkState.EnterState();
+                }
+            }
         }
 
         public void PlayerAnimoatrChage(int state)
         {
             animator.SetInteger(AnimatorState, state);
+            //Debug.Log(state);
         }
 
         public void MoveToDir()

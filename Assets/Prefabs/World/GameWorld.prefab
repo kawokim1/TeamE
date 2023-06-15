@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6564426632338721546}
   - component: {fileID: 6564426632338721547}
   - component: {fileID: 6564426632338721548}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stair (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 6564426632420574998}
   - component: {fileID: 6564426632420574999}
   - component: {fileID: 6564426632420575080}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 6564426632426014463}
   - component: {fileID: 6564426632426014448}
   - component: {fileID: 6564426632426014449}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 6564426632660115263}
   - component: {fileID: 6564426632660115248}
   - component: {fileID: 6564426632660115249}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +397,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6564426633064040118}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 6564426633129613866}
   - component: {fileID: 6564426633129613867}
   - component: {fileID: 6564426633129613868}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stair (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -530,7 +530,7 @@ GameObject:
   - component: {fileID: 6564426633251685702}
   - component: {fileID: 6564426633251685703}
   - component: {fileID: 6564426633251685720}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 2ndFloor02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -624,7 +624,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6564426633308893679}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GameWorld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 6564426633399041933}
   - component: {fileID: 6564426633399041934}
   - component: {fileID: 6564426633399041935}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -765,7 +765,7 @@ GameObject:
   - component: {fileID: 6564426633450699703}
   - component: {fileID: 6564426633450699656}
   - component: {fileID: 6564426633450699657}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stair (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -862,7 +862,7 @@ GameObject:
   - component: {fileID: 6564426633476206039}
   - component: {fileID: 6564426633476205864}
   - component: {fileID: 6564426633476205865}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slope02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -959,7 +959,7 @@ GameObject:
   - component: {fileID: 6564426633662209723}
   - component: {fileID: 6564426633662209724}
   - component: {fileID: 6564426633662209725}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 2ndFloor01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1056,7 +1056,7 @@ GameObject:
   - component: {fileID: 6564426633664028181}
   - component: {fileID: 6564426633664028182}
   - component: {fileID: 6564426633664028183}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stair (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1153,7 +1153,7 @@ GameObject:
   - component: {fileID: 6564426633803721558}
   - component: {fileID: 6564426633803721559}
   - component: {fileID: 6564426633803721384}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slope01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1250,7 +1250,7 @@ GameObject:
   - component: {fileID: 6564426633879613130}
   - component: {fileID: 6564426633879613131}
   - component: {fileID: 6564426633879613132}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stair (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1344,7 +1344,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6564426633967916976}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StairObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1386,7 +1386,7 @@ GameObject:
   - component: {fileID: 6564426634115115663}
   - component: {fileID: 6564426634115115648}
   - component: {fileID: 6564426634115115649}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stair (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1483,7 +1483,7 @@ GameObject:
   - component: {fileID: 6564426634136753148}
   - component: {fileID: 6564426634136753149}
   - component: {fileID: 6564426634136753150}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1677,7 +1677,7 @@ GameObject:
   - component: {fileID: 6564426634161103764}
   - component: {fileID: 6564426634161103765}
   - component: {fileID: 6564426634161103766}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 2ndFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1774,7 +1774,7 @@ GameObject:
   - component: {fileID: 6564426634193236943}
   - component: {fileID: 6564426634193236928}
   - component: {fileID: 6564426634193236929}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1871,7 +1871,7 @@ GameObject:
   - component: {fileID: 6564426634244536793}
   - component: {fileID: 6564426634244536794}
   - component: {fileID: 6564426634244536795}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1965,7 +1965,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6564426634266056792}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2003,7 +2003,7 @@ GameObject:
   - component: {fileID: 6564426634271235195}
   - component: {fileID: 6564426634271235196}
   - component: {fileID: 6564426634271235197}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2100,7 +2100,7 @@ GameObject:
   - component: {fileID: 6564426634352190855}
   - component: {fileID: 6564426634352190872}
   - component: {fileID: 6564426634352190873}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stair (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

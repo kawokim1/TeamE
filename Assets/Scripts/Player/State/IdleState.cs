@@ -17,6 +17,8 @@ namespace player
         {
             playerInputSystem.playerCurrentStates = this;
             playerInputSystem.PlayerAnimoatrChage((int)state);
+            playerInputSystem.lastMemorySpeed = 0.0f;
+            playerInputSystem.moveDirection = Vector3.zero;
         }
 
         public void MoveLogic()
