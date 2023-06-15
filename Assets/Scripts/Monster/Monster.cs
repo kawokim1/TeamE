@@ -43,7 +43,7 @@ public class Monster : MonoBehaviour
     Animator animator;
     GameObject weapon;
     PlayerInputSystem player;
-    Monter_Move monster_Move;
+  
     CharacterController characterController;
     Spawner spawner;
 
@@ -53,7 +53,7 @@ public class Monster : MonoBehaviour
 
     private void Awake()
     {
-        monster_Move = FindObjectOfType<Monter_Move>();
+     
         player = FindObjectOfType<PlayerInputSystem>();
         target = player.transform;
         animator = GetComponent<Animator>();
