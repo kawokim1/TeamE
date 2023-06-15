@@ -24,13 +24,6 @@ namespace player
             lastSpeed = playerInputSystem.lastMemorySpeed;
             playerInputSystem.PlayerAnimoatrChage((int)state);
         }
-        public void EnterState(bool jump = false)
-        {
-            EnterState();
-            if(jump)
-                playerInputSystem.moveDirection.y = jumpForce;
-        }
-
         public void MoveLogic()
         {
             characterController.Move(
