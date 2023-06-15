@@ -2413,8 +2413,8 @@ GameObject:
   - component: {fileID: 1405816885102848021}
   - component: {fileID: 4821352629301259723}
   - component: {fileID: 4821352629301259722}
-  - component: {fileID: 1904576507471884502}
   - component: {fileID: 1771923725}
+  - component: {fileID: 386608468}
   m_Layer: 0
   m_Name: Moneter
   m_TagString: Monster
@@ -2491,22 +2491,6 @@ CapsuleCollider:
   m_Height: 1.1569201
   m_Direction: 1
   m_Center: {x: -0.0003464222, y: 0.63282984, z: 0.093159646}
---- !u!114 &1904576507471884502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5632186165776918741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6c5d6d02ebaf174e8abbd140ec9a1c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  backSpeed: 4
-  rotationSpeed: 5
-  Distance: 1
 --- !u!143 &1771923725
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2525,6 +2509,34 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &386608468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5632186165776918741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 820e78db59657e644ab5e28b652104f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 2
+  backSpeed: 4
+  gravity: -9.81
+  targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  rotationSpeed: 5
+  Distance: 1
+  spawnRotation: {x: 0, y: 0, z: 0, w: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
+  dir: {x: 0, y: 0, z: 0}
+  moveDirection: {x: 0, y: 0, z: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  areaMin: {x: -7.5, y: 0, z: 2.5}
+  areaMax: {x: -2.5, y: 0, z: 7.5}
+  direction: {x: 0, y: 0, z: 0}
+  characterController: {fileID: 0}
 --- !u!1 &5643674289837326076
 GameObject:
   m_ObjectHideFlags: 0
