@@ -2429,7 +2429,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5632186165776918741}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.43, y: 0.08, z: -0.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2439,7 +2439,7 @@ Transform:
   - {fileID: 1121104841}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1405816885102848021
 Animator:
   serializedVersion: 5
@@ -2522,19 +2522,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 2
-  backSpeed: 4
-  gravity: -9.81
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
-  rotationSpeed: 5
-  Distance: 1
   spawnRotation: {x: 0, y: 0, z: 0, w: 0}
   spawnPosition: {x: 0, y: 0, z: 0}
   dir: {x: 0, y: 0, z: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}
-  areaMin: {x: -7.5, y: 0, z: 2.5}
-  areaMax: {x: -2.5, y: 0, z: 7.5}
   direction: {x: 0, y: 0, z: 0}
   characterController: {fileID: 0}
 --- !u!1 &5643674289837326076
