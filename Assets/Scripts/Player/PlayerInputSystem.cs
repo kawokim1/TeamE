@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace player
     }
     public class PlayerInputSystem : MonoBehaviour
     {
-
+        
         //컴퍼넌트
         //Rigidbody playerRigidbody;
         PlayerInputAction inputActions;
@@ -82,6 +83,9 @@ namespace player
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
 
             playerCurrentStates = idleState;
+
+            // 커서 락
+            //Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void OnEnable()
@@ -103,6 +107,7 @@ namespace player
 
             //Space 점프
             inputActions.Player.Jump.performed += JumpButton;
+
         }
 
         private void JumpButton(InputAction.CallbackContext _)
@@ -246,7 +251,8 @@ namespace player
             Quaternion targerRotation = Quaternion.LookRotation(targetDirection);
             Quaternion playerRoation = Quaternion.Slerp(transform.rotation, targerRotation, rotationSpeed * Time.fixedDeltaTime);
 
-            transform.rotation = playerRoation;
+            transform.rotation = targerRotation;
+            //transform.rotation = playerRoation;
         }
     }
 
