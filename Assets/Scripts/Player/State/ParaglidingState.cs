@@ -23,7 +23,7 @@ namespace player
         {
             playerInputSystem.moveDirection.y = 0;
             playerInputSystem.playerCurrentStates = this;
-            playerInputSystem.PlayerAnimoatrChage((int)state);
+            //playerInputSystem.PlayerAnimoatrChage((int)state);
         }
 
         public void MoveLogic()
