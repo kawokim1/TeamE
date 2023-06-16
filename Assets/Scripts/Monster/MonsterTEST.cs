@@ -106,16 +106,7 @@ namespace monster
         }
 
       
-        /// <summary>
-        /// 플레이어와 몬스터가 3초이상 몬스터 인식범위에서 떨어져있을시 발동되는 코루틴
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator Stop()
-        {
-            yield return new WaitForSeconds(2);
-           BackToRespawn();
-            
-        }
+      
 
         public void Attack()
         {
