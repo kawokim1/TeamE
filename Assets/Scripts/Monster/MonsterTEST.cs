@@ -43,10 +43,10 @@ namespace monster
 
         public MonsterState monsterCurrentStates;
         MonsterState idleState;              //0
-        public MonsterState walkState;              //1
-        MonsterState chaseState;             //2
+        MonsterState walkState;       //1
+        public MonsterState chaseState;             //2
         MonsterState backState;              //3
-        MonsterState melee_AttackState;      //4
+        public MonsterState melee_AttackState;      //4
         MonsterState long_AttacktState;      //5
         MonsterState dieState;               //6
             
@@ -106,7 +106,7 @@ namespace monster
 
      public IEnumerator OnMove()
         {
-            wait = Random.Range(3, 8);
+            wait = Random.Range(3, 7);
             while (true)
             {
                 idleState.EnterState();
@@ -118,23 +118,15 @@ namespace monster
 
         }
 
+        /// <summary>
+        /// 몬스터가 스폰구역으로 복귀 한느 코루틴
+        /// </summary>
+        /// <returns></returns>
         IEnumerator BackToSpawn()
         {
             yield return new WaitForSeconds(2);
             backState.EnterState();
         }
-
-        public void Attack()
-        {
-          
-        }
-
-        protected virtual void Die()
-        {
-           
-        }
-     
-       
 
     }
 }

@@ -1,3 +1,9 @@
+using player;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.EventSystems;
 namespace monster
 
 {
@@ -17,7 +23,11 @@ namespace monster
 
         public void MoveLogic()
         {
-
+            float distance = Vector3.Distance(monster.target.position, monster.transform.position);
+            if (distance > monster.Distance)
+            {
+                monster.chaseState.EnterState();
+            }
         }
 
     }

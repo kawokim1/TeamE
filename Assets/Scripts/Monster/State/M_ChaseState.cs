@@ -1,7 +1,9 @@
+using player;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace monster
 
@@ -11,7 +13,6 @@ namespace monster
 
         MonsterTEST monster;
         State state = State.CHASE;
-
         public M_ChaseState(MonsterTEST monsterTEST)
         {
             this.monster = monsterTEST;
@@ -34,9 +35,6 @@ namespace monster
             if (distance > monster.Distance)
             {
                 direction = (monster.target.position - monster.transform.position).normalized;
-                //direction = new Vector3(monster.target.position.x - monster.transform.position.x,
-                //    monster.direction.y,
-                //    monster.target.position.z - monster.transform.position.z).normalized;
 
                 if (monster.characterController.isGrounded == false)
                 {
@@ -46,6 +44,10 @@ namespace monster
 
                 monster.characterController.Move(direction * monster.speed * Time.fixedDeltaTime);
 
+            }
+            if(distance <= monster.Distance) 
+            {
+                monster.melee_AttackState.EnterState();
             }
            
         }
