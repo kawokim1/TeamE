@@ -28,13 +28,12 @@ namespace monster
         public float rotationSpeed { get; private set; } = 5.0f;          //타겟을 쳐다보는데 걸리는 속도
         public float Distance { get; private set; } = 1;                  //몬스터와 플레이어의 최대 근접 거리 및 공격발동 거리
         public Quaternion spawnRotation;                                 //스폰포지션의 방향
-
+        float wait;
         public Vector3 spawnPosition;
         public Vector3 dir;
         public Vector3 moveDirection;
         public Vector3 targetPosition;
-        public Vector3 areaMin { get; private set; } = new Vector3(-7.5f, 0, 2.5f);
-        public Vector3 areaMax { get; private set; } = new Vector3(-2.5f, 0, 7.5f);
+        
         public Vector3 direction;
         PlayerInputSystem player;
         public CharacterController characterController;
@@ -73,9 +72,8 @@ namespace monster
             PlayerAnimoatrChage(0);
         }
         private void Start()
-        { 
-            //walkState.EnterState();
-           // walkState.MoveLogic();
+        {
+            StartCoroutine(OnMove());
         }
         public void PlayerAnimoatrChage(int state)
         {
@@ -85,7 +83,8 @@ namespace monster
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
-            {     
+            {    
+                StopAllCoroutines();
                 chaseState.EnterState();
             }
 
@@ -95,7 +94,7 @@ namespace monster
         {
             if (other.CompareTag("Player"))
             {
-                
+                StartCoroutine(BackToSpawn());
             }
         }
 
@@ -105,8 +104,25 @@ namespace monster
             monsterCurrentStates.MoveLogic();
         }
 
-      
-      
+     public IEnumerator OnMove()
+        {
+            wait = Random.Range(3, 8);
+            while (true)
+            {
+                idleState.EnterState();
+                yield return new WaitForSeconds(wait * 0.5f);
+                walkState.EnterState();
+                yield return new WaitForSeconds(wait);
+              
+            }
+
+        }
+
+        IEnumerator BackToSpawn()
+        {
+            yield return new WaitForSeconds(2);
+            backState.EnterState();
+        }
 
         public void Attack()
         {

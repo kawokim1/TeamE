@@ -38,7 +38,7 @@ namespace monster
             }
 
             float distance = Vector3.Distance(monster.spawnPosition, monster.transform.position);
-            if (distance > 0)
+            if (distance > 1)
             {
                 direction = (monster.spawnPosition - monster.transform.position).normalized;
 
@@ -51,11 +51,10 @@ namespace monster
 
                 monster.characterController.Move(direction * monster.speed * Time.fixedDeltaTime);
             }
-            if (distance < 1f)
+            if (distance <= 1f)
             {
-             
                 recogArea.enabled = true;
-                monster.walkState.EnterState();
+                monster.StartCoroutine(monster.OnMove());
                
             }
         }
