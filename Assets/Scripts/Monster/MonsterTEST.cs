@@ -13,6 +13,7 @@ namespace monster
         IDLE = 0,
         WALK,
         CHASE,
+        BACK,
         MELEE_ATTACK,
         LONG_ATTACK,
         Die
@@ -42,13 +43,14 @@ namespace monster
         //현재 상태
 
         public MonsterState monsterCurrentStates;
-        MonsterState idleState;
-        MonsterState walkState;
-        MonsterState chaseState;
-        MonsterState melee_AttackState;
-        MonsterState long_AttacktState;
-        MonsterState dieState;
-
+        MonsterState idleState;              //0
+        public MonsterState walkState;              //1
+        MonsterState chaseState;             //2
+        MonsterState backState;              //3
+        MonsterState melee_AttackState;      //4
+        MonsterState long_AttacktState;      //5
+        MonsterState dieState;               //6
+            
         public void Awake()
         {
      
@@ -61,6 +63,7 @@ namespace monster
             idleState = new M_IdleState(this);
             walkState = new M_WalkState(this);
             chaseState = new M_ChaseState(this);
+            backState = new M_BackState(this);
             melee_AttackState = new M_MeleeAttackState(this);
             long_AttacktState = new M_LongAttackState();
             dieState = new M_DieState();
@@ -82,10 +85,8 @@ namespace monster
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
-            {
-                //targetOn = true;
+            {     
                 chaseState.EnterState();
-               // chaseState.MoveLogic();
             }
 
         }
@@ -94,54 +95,10 @@ namespace monster
         {
             if (other.CompareTag("Player"))
             {
-                StartCoroutine(Stop());
+                
             }
         }
-        /// <summary>
-        /// 몬스터가 리스폰 지역으로 돌아가는 함수
-        /// </summary>
-        void BackToRespawn()
-        {
 
-            Transform recog = transform.GetChild(2);
-
-            Collider recogArea = recog.GetComponent<Collider>();
-
-            recogArea.enabled = false;
-
-            Vector3 direction = spawnPosition - transform.position;
-            direction.y = 0;
-            if (direction != Vector3.zero)
-            {
-                spawnRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, spawnRotation, rotationSpeed * Time.deltaTime);
-            }
-
-            float distance = Vector3.Distance(spawnPosition, transform.position);
-            if (distance > 0)
-            {
-                direction = (spawnPosition - transform.position).normalized;
-
-
-                if (characterController.isGrounded == false)
-                {
-                    direction.y += gravity * Time.fixedDeltaTime;
-                }
-
-
-                characterController.Move(direction * speed * Time.fixedDeltaTime);
-            }
-            if (distance < 1f)
-            {
-                //runAway = false;
-                recogArea.enabled = true;
-                walkState.EnterState();
-               // walkState.MoveLogic();
-
-            }
-
-
-        }
         private void FixedUpdate()
         {
             Debug.Log(monsterCurrentStates);
