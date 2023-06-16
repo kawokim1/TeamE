@@ -140,9 +140,12 @@ namespace player
                 }
                 else
                 {
-                    isParagliding = true;
-                    paraglidingState.EnterState();
-                    Debug.Log(paraglidingState);
+                    if (!Physics.Raycast(transform.position, Vector3.down, characterController.height * 1.5f, groundLayer))
+                    {
+                        isParagliding = true;
+                        paraglidingState.EnterState();
+                        
+                    }
                 }
             }
         }
