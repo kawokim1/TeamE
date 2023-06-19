@@ -8,9 +8,9 @@ namespace monster
 {
     public class M_IdleState : MonsterState
     {
-        MonsterTEST monster;
+        Monster monster;
         State state = State.IDLE;
-        public M_IdleState(MonsterTEST monsterTEST)
+        public M_IdleState(Monster monsterTEST)
         {
             this.monster = monsterTEST;
         }

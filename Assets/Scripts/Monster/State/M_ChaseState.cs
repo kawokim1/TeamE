@@ -11,9 +11,9 @@ namespace monster
     public class M_ChaseState : MonsterState
     {
 
-        MonsterTEST monster;
+        Monster monster;
         State state = State.CHASE;
-        public M_ChaseState(MonsterTEST monsterTEST)
+        public M_ChaseState(Monster monsterTEST)
         {
             this.monster = monsterTEST;
         }

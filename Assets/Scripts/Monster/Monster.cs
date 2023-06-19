@@ -1,295 +1,133 @@
 using player;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Monster : MonoBehaviour
+namespace monster
 {
-    //몬스터가 쫒는 목표(플레이어)
-    Transform target;
-    //몬스터가 플레이어를 추격하는 속도
-    public float speed = 2.0f;
-    //몬스터가 스폰포지션으로 돌아가는 속도
-    public float backSpeed = 4.0f;
-
-    //몬스터가 스폰포지션으로 돌아가는 속도조절을 위한 멤버변수
-
-    float gravity = -9.81f; // 중력
-    //플레이어의 방향 멤버 변수
-    private Quaternion targetRotation;
-    //타겟을 쳐다보는데 걸리는 속도
-    public float rotationSpeed = 5.0f;
-    //몬스터와 플레이어의 최대 근접 거리 및 공격발동 거리
-    public float Distance = 1;
-    //몬스터의 스폰 포지션
-    protected Vector3 spawnPosition = Vector3.zero;
-    //스폰포지션의 방향
-    private Quaternion spawnRotation;
-    //몬스터의 현재 상태에 대한 플래그
-    bool targetOn = false;
-    bool runAway = false;
-    
-    Vector3 dir;
-    Vector3 moveDirection;
-    Vector3 targetPosition;
-    Vector3 areaMin = new Vector3(-7.5f, 0,2.5f);
-    
-   Vector3 areaMax = new Vector3(-2.5f,0 ,7.5f);
-
-
-    Vector3 direction;
-    Animator animator;
-    GameObject weapon;
-    PlayerInputSystem player;
-  
-    CharacterController characterController;
-    Spawner spawner;
-
-
-
-
-
-    private void Awake()
+    enum State
     {
+        IDLE = 0,
+        WALK,
+        CHASE,
+        BACK,
+        MELEE_ATTACK,
+        LONG_ATTACK,
+        Die
+    }
+    public class Monster : MonoBehaviour
+    {
+        public Transform target;                       //몬스터가 쫒는 목표(플레이어)
+        public float speed { get; private set; } = 2.0f;                  //몬스터 속도
+        public float backSpeed { get; private set; } = 4.0f;              //몬스터가 스폰포지션으로 돌아가는 속도
+        public float gravity { get; private set; } = -9.81f;                     // 중력
+        public Quaternion targetRotation;                                //플레이어의 방향 멤버 변수
+        public float rotationSpeed { get; private set; } = 5.0f;          //타겟을 쳐다보는데 걸리는 속도
+        public float Distance { get; private set; } = 1;                  //몬스터와 플레이어의 최대 근접 거리 및 공격발동 거리
+        public Quaternion spawnRotation;                                 //스폰포지션의 방향
+        float wait;
+        public Vector3 spawnPosition;
+        public Vector3 dir;
+        public Vector3 moveDirection;
+        public Vector3 targetPosition;
+        
+        public Vector3 direction;
+        PlayerInputSystem player;
+        public CharacterController characterController;
+        Animator animator;
+        readonly int AnimatorState = Animator.StringToHash("State");
+        //현재 상태
+
+        public MonsterState monsterCurrentStates;
+        MonsterState idleState;              //0
+        MonsterState walkState;       //1
+        public MonsterState chaseState;             //2
+        MonsterState backState;              //3
+        public MonsterState melee_AttackState;      //4
+        MonsterState long_AttacktState;      //5
+        MonsterState dieState;               //6
+            
+        public void Awake()
+        {
      
-        player = FindObjectOfType<PlayerInputSystem>();
-        target = player.transform;
-        animator = GetComponent<Animator>();
-        characterController = GetComponent<CharacterController>();
-        //weapon = transform.GetChild(3).gameObject;
-        spawnPosition = transform.position;
-        spawner = FindObjectOfType<Spawner>();
-        
-    }
-    private void Start()
-    {
-        //StartCoroutine(Move());  
-        SetMove();
-    }
+            player = FindObjectOfType<PlayerInputSystem>();
+            target = player.transform;
+            animator = GetComponent<Animator>();
+            characterController = GetComponent<CharacterController>();
+            spawnPosition = transform.position;
 
-    private void Update()
-    {
-        if (targetOn)
-        {
-            
-            MoveToTarget();
+            idleState = new M_IdleState(this);
+            walkState = new M_WalkState(this);
+            chaseState = new M_ChaseState(this);
+            backState = new M_BackState(this);
+            melee_AttackState = new M_MeleeAttackState(this);
+            long_AttacktState = new M_LongAttackState();
+            dieState = new M_DieState();
+
+
+            monsterCurrentStates = idleState;
+            PlayerAnimoatrChage(0);
         }
-        if (runAway)
+        private void Start()
         {
-            
-            BackToRespawn();
+            StartCoroutine(OnMove());
         }
-        else if (targetOn==false && runAway ==false)
+        public void PlayerAnimoatrChage(int state)
         {
-            OnMoveUpdate();
-        }
-        
-
-
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            targetOn = true;
-
+            animator.SetInteger(AnimatorState, state);
         }
 
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        private void OnTriggerEnter(Collider other)
         {
-
-            StartCoroutine(Stop());
-
-
-
-        }
-        //if(other.CompareTag("SpawnArea"))
-        //{
-        //    StartCoroutine(Stop() );
-        //}
-    }
-    /// <summary>
-    /// 몬스터가 리스폰 지역으로 돌아가는 함수
-    /// </summary>
-    void BackToRespawn()
-    {
-
-        Transform recog = transform.GetChild(2);
-
-        Collider recogArea = recog.GetComponent<Collider>();
-
-        recogArea.enabled = false;
-
-        Vector3 direction = spawnPosition - transform.position;
-        direction.y = 0;
-        if (direction != Vector3.zero)
-        {
-            spawnRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, spawnRotation, rotationSpeed * Time.deltaTime);
-        }
-
-        float distance = Vector3.Distance(spawnPosition, transform.position);
-        if (distance > 0)
-        {
-            direction = (spawnPosition - transform.position).normalized;
-
-           
-            if (characterController.isGrounded == false)
-            {
-                direction.y += gravity * Time.fixedDeltaTime;
+            if (other.CompareTag("Player"))
+            {    
+                StopAllCoroutines();
+                chaseState.EnterState();
             }
 
-
-            characterController.Move(direction * speed * Time.fixedDeltaTime);
         }
-        if (distance < 1f)
+
+        private void OnTriggerExit(Collider other)
         {
-            runAway = false;
-            recogArea.enabled = true;
-            
+            if (other.CompareTag("Player"))
+            {
+                StartCoroutine(BackToSpawn());
+            }
         }
 
-
-    }
-
-    /// <summary>
-    /// 플레이어와 몬스터가 3초이상 몬스터 인식범위에서 떨어져있을시 발동되는 코루틴
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator Stop()
-    {
-        yield return new WaitForSeconds(3);
-        targetOn = false;
-        runAway = true;
-    }
-
-    /// <summary>
-    /// 몬스터가 플레이어를 추격하는 함수
-    /// </summary>
-    public void MoveToTarget()
-    {
-        Vector3 direction = target.position - transform.position;
-        direction.y = 0;
-        targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-        float distance = Vector3.Distance(target.position, transform.position);
-        if (distance > Distance)
+        private void FixedUpdate()
         {
-            direction = (target.position - transform.position).normalized;
-
-
-            if (characterController.isGrounded == false)
-            {
-                direction.y += gravity * Time.fixedDeltaTime;
-            }
-
-
-            characterController.Move(direction * speed * Time.fixedDeltaTime);
-            
+            Debug.Log(monsterCurrentStates);
+            monsterCurrentStates.MoveLogic();
         }
-        if (distance <= Distance)
+
+     public IEnumerator OnMove()
         {
-            
-            Attack();
+            wait = Random.Range(3, 7);
+            while (true)
+            {
+                idleState.EnterState();
+                yield return new WaitForSeconds(wait * 0.5f);
+                walkState.EnterState();
+                yield return new WaitForSeconds(wait);
+              
+            }
+
+        }
+
+        /// <summary>
+        /// 몬스터가 스폰구역으로 복귀 한느 코루틴
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator BackToSpawn()
+        {
+            yield return new WaitForSeconds(2);
+            backState.EnterState();
         }
 
     }
-
-    public void Attack()
-    {
-
-    }
-
-    protected virtual void Die()
-    {
-        Destroy(gameObject);
-    }
-    IEnumerator Back()
-    {
-        yield return new WaitForSeconds(5);
-        targetOn = false;
-        BackToRespawn();
-    }
-    void OnMoveUpdate()
-    {
-            
-            moveDirection.y = 0;
-            targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-            if (characterController.isGrounded == false)
-            {
-                moveDirection.y += gravity * Time.fixedDeltaTime;
-            }
-
-            characterController.Move(dir * speed * Time.fixedDeltaTime);
-
-
-            if (transform.position.z > areaMax.z)
-            {
-                SetMove();
-
-            }
-            else if (transform.position.z < areaMin.z)
-            {
-                SetMove();
-
-            }
-        
-    }
-    // IEnumerator Move()
-    //{
-    //    float moveSpeed = speed;
-    //    while (true)
-
-    //    {
-    //        if (targetOn == false && runAway == false)
-    //        { 
-    //        SetMove();
-    //        OnMoveUpdate();
-    //        yield return new WaitForSeconds(2);
-    //        speed = 0;
-    //        SetMove();
-    //        OnMoveUpdate();
-    //        yield return new WaitForSeconds(2);
-    //        speed = moveSpeed;
-    //         }
-           
-    //    }
-    //}
-    void SetMove()
-    {
-
-        
-            float x;
-            float z;
-
-            x = Random.Range(areaMin.x, areaMax.x);
-            if (transform.position.z > 5)
-            {
-                z = areaMin.z;
-            }
-            else
-            {
-                z = areaMax.z;
-            }
-            targetPosition = new Vector3(x,0,z);
-            moveDirection = targetPosition - transform.position;   
-            dir = moveDirection.normalized;
-            
-          
-         
-        
-    }
-
-   
 }
-
 

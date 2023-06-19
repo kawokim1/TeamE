@@ -9,8 +9,8 @@ namespace monster
     public class M_BackState : MonsterState
     {
         State state = State.BACK;
-        MonsterTEST monster;
-        public M_BackState(MonsterTEST monsterTEST)
+        Monster monster;
+        public M_BackState(Monster monsterTEST)
         {
             this.monster = monsterTEST;
         }

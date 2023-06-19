@@ -10,10 +10,10 @@ namespace monster
     public class M_WalkState : MonsterState 
     {
         State state = State.WALK;
-        MonsterTEST monster;
+        Monster monster;
         Vector3 areaMin = new Vector3(-7.5f, 0, 2.5f);
         Vector3 areaMax = new Vector3(-2.5f, 0, 7.5f);
-        public M_WalkState(MonsterTEST monsterTEST)
+        public M_WalkState(Monster monsterTEST)
         {
             this.monster = monsterTEST;
         }
