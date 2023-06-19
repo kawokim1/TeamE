@@ -15,7 +15,8 @@ namespace player
         RUN,
         SPRINT,
         InAir,
-        Paragliding
+        Paragliding,
+        SlowDown
     }
     public class PlayerInputSystem : MonoBehaviour
     {
@@ -36,6 +37,7 @@ namespace player
         //PlayerState jumpState;
         PlayerState inAirState;
         PlayerState paraglidingState;
+        PlayerState slowDownState ;
 
         //애니메이션
         //readonly int InputYString = Animator.StringToHash("InputY");
@@ -85,12 +87,13 @@ namespace player
             //jumpState = new JumpState(this, characterController);
             inAirState = new InAirState(this, characterController);
             paraglidingState = new ParaglidingState(this, characterController);
+            slowDownState = new SlowDownState(this, animator,characterController);
 
             //레이어 
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
 
-            playerCurrentStates = idleState;
-
+            //playerCurrentStates = idleState;
+            playerCurrentStates = slowDownState;
             // 커서 락
             //Cursor.lockState = CursorLockMode.Locked;
         }
@@ -159,8 +162,11 @@ namespace player
 
         private void SprintButton(InputAction.CallbackContext _)
         {
-            sprintState.EnterState();
-            walkBool = false;
+            if(movementInput != Vector2.zero && !isInAir)
+            {
+                sprintState.EnterState();
+                walkBool = false;
+            }
         }
 
         private void MovementLogic(InputAction.CallbackContext context)
@@ -176,10 +182,13 @@ namespace player
             {
                 if (movementInput == Vector2.zero)
                 {
-                    idleState.EnterState();
+                    //idleState.EnterState();
+                    slowDownState.EnterState();
+                    
                 }
                 else if (playerCurrentStates != sprintState && !walkBool)
                 {
+                    Debug.Log("여기?");
                     runState.EnterState();
                 }
                 else if (walkBool)
@@ -198,6 +207,7 @@ namespace player
 
         private void FixedUpdate()
         {
+            Debug.Log(transform.position.y);
             playerCurrentStates.MoveLogic();
         }
 
@@ -240,6 +250,7 @@ namespace player
                 MoveToDir();
                 if (movementInput == Vector2.zero)
                 {
+                    //slowDownState.EnterState();
                     idleState.EnterState();
                 }
                 else if (playerCurrentStates != sprintState && !walkBool)
@@ -275,7 +286,10 @@ namespace player
             }
         }
 
-
+        public void PlayerEnterIdleState()
+        {
+            playerCurrentStates = idleState;
+        }
         public void PlayerAnimoatrChage(int state)
         {
             animator.SetInteger(AnimatorState, state);
