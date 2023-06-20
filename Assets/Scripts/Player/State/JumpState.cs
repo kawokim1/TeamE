@@ -29,12 +29,6 @@ namespace player
             playerInputSystem.moveDirection.y = jumpForce;
             lastSpeed = playerInputSystem.lastMemorySpeed;
         }
-        public void EnterState(float a)
-        {
-
-        }
-
-
         public void MoveLogic()
         {
             Jump();
