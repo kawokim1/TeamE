@@ -5,12 +5,18 @@ using UnityEngine;
 
 public class Monster_FOV_Test : MonoBehaviour
 {
+    Vector3 dir = new Vector3(3,3,3);
     RaycastHit hit;
+    Collider m_collider;
+    private void Awake()
+    {
+        m_collider = GetComponent<Collider>();
+    }
     private void Update()
     {
-        if (Physics.Raycast(gameObject.transform.position, gameObject.transform.forward, out hit, 1000))
+        if (Physics.BoxCast(m_collider.bounds.center, transform.localScale, transform.forward,out hit,transform.rotation, 5))
         {
-            Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * hit.distance, Color.red);
+            Debug.DrawRay(m_collider.bounds.center, hit.point, Color.red);
         }
     }
 

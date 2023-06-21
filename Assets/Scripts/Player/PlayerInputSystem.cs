@@ -207,7 +207,7 @@ namespace player
 
         private void FixedUpdate()
         {
-            Debug.Log(transform.position.y);
+           // Debug.Log(transform.position.y);
             playerCurrentStates.MoveLogic();
         }
 
