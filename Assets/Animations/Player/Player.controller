@@ -227,7 +227,7 @@ AnimatorStateMachine:
   m_AnyStatePosition: {x: -140, y: -190, z: 0}
   m_EntryPosition: {x: 300, y: 230, z: 0}
   m_ExitPosition: {x: 60, y: 130, z: 0}
-  m_ParentStateMachinePosition: {x: 270, y: 310, z: 0}
+  m_ParentStateMachinePosition: {x: 280, y: 310, z: 0}
   m_DefaultState: {fileID: -491860674958288784}
 --- !u!206 &-5226364888743069498
 BlendTree:
@@ -311,11 +311,6 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: -767255709337101409}
-    second:
-    - {fileID: 4351986617691971422}
-    - {fileID: -7931759332222212245}
-    - {fileID: 287752506951953551}
   - first: {fileID: 1502813288586221416}
     second:
     - {fileID: -8894300601267842313}
@@ -325,6 +320,11 @@ AnimatorStateMachine:
     - {fileID: 4123509229211130279}
     - {fileID: 2417325837898492305}
     - {fileID: -2933123111218292113}
+  - first: {fileID: -767255709337101409}
+    second:
+    - {fileID: 4351986617691971422}
+    - {fileID: -7931759332222212245}
+    - {fileID: 287752506951953551}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -140, y: -40, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}

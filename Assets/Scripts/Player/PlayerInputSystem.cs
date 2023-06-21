@@ -34,7 +34,7 @@ namespace player
         PlayerState walkState;
         PlayerState runState; 
         PlayerState sprintState;
-        //PlayerState jumpState;
+        //PlayerState jumpState; 점프는 InAir로 합병
         PlayerState inAirState;
         PlayerState paraglidingState;
         PlayerState slowDownState ;
@@ -87,13 +87,13 @@ namespace player
             //jumpState = new JumpState(this, characterController);
             inAirState = new InAirState(this, characterController);
             paraglidingState = new ParaglidingState(this, characterController);
-            slowDownState = new SlowDownState(this, animator,characterController);
+            slowDownState = new SlowDownState(this);
 
             //레이어 
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
 
-            //playerCurrentStates = idleState;
-            playerCurrentStates = slowDownState;
+            playerCurrentStates = idleState;
+            //playerCurrentStates = slowDownState;
             // 커서 락
             //Cursor.lockState = CursorLockMode.Locked;
         }
@@ -156,8 +156,10 @@ namespace player
         private void WalkButton(InputAction.CallbackContext _)
         {
             walkBool = walkBool ? false : true;
-            if(walkBool)
+            if (walkBool && movementInput != Vector2.zero)
                 walkState.EnterState();
+            else if (!walkBool && movementInput != Vector2.zero)
+                runState.EnterState();
         }
 
         private void SprintButton(InputAction.CallbackContext _)
@@ -184,11 +186,9 @@ namespace player
                 {
                     //idleState.EnterState();
                     slowDownState.EnterState();
-                    
                 }
                 else if (playerCurrentStates != sprintState && !walkBool)
                 {
-                    Debug.Log("여기?");
                     runState.EnterState();
                 }
                 else if (walkBool)
@@ -207,7 +207,6 @@ namespace player
 
         private void FixedUpdate()
         {
-           // Debug.Log(transform.position.y);
             playerCurrentStates.MoveLogic();
         }
 
@@ -288,7 +287,7 @@ namespace player
 
         public void PlayerEnterIdleState()
         {
-            playerCurrentStates = idleState;
+            idleState.EnterState();
         }
         public void PlayerAnimoatrChage(int state)
         {

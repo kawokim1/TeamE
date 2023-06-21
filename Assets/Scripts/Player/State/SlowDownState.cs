@@ -7,19 +7,19 @@ using UnityEngine.EventSystems;
 public class SlowDownState : PlayerState
 {
     PlayerInputSystem playerInputSystem;
-    CharacterController characterController;
-    Animator animator;
+    //CharacterController characterController;
+    //Animator animator;
     State state = State.SlowDown;
     private float lastSpeed;
     private float slowSpeed;
 
     float timer = 0.0f;
 
-    public SlowDownState(PlayerInputSystem playerInputSystem, Animator animator, CharacterController characterController)
+    public SlowDownState(PlayerInputSystem playerInputSystem)
     {
         this.playerInputSystem = playerInputSystem;
-        this.animator = animator;
-        this.characterController = characterController;
+        //this.animator = animator;
+        //this.characterController = characterController;
     }
     public void EnterState()
     {
@@ -34,11 +34,11 @@ public class SlowDownState : PlayerState
     {
         timer += Time.deltaTime;
 
-        if(timer <= 0.5f)
+        if (timer <= 0.5f)
             playerInputSystem.PlayerMove(slowSpeed);
 
-            //characterController.Move(playerInputSystem.moveDirection * slowSpeed * Time.fixedDeltaTime);
-        
+        //characterController.Move(playerInputSystem.moveDirection * slowSpeed * Time.fixedDeltaTime);
+
         //if (timer < animator.GetCurrentAnimatorClipInfo(0)[0].clip.length)
         //{
         //    characterController.Move(playerInputSystem.moveDirection * slowSpeed * Time.fixedDeltaTime);
