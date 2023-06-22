@@ -16,7 +16,8 @@ namespace player
         SPRINT,
         InAir,
         Paragliding,
-        SlowDown
+        SlowDown,
+        Attack
     }
     public class PlayerInputSystem : MonoBehaviour
     {
@@ -38,10 +39,13 @@ namespace player
         PlayerState inAirState;
         PlayerState paraglidingState;
         PlayerState slowDownState ;
+        PlayerState attackState;
 
         //애니메이션
         //readonly int InputYString = Animator.StringToHash("InputY");
         readonly int AnimatorState = Animator.StringToHash("State");
+
+        //걷기
         bool walkBool = false;
 
         //입력값
@@ -56,11 +60,6 @@ namespace player
         Transform cameraObject;
         Vector3 targetDirection = Vector3.zero; //회전하는 방향
         
-        Vector3 CurrentTargetRotation;
-        Vector3 timeToReachTargetRotation;
-        Vector3 dampedTargetRotationCurrentVelocity;
-        Vector3 dampedTargetRotationPassedTime;
-
         //점프 낙하
         public float lastMemorySpeed = 0.0f;
         bool isInAir = false;
@@ -69,10 +68,11 @@ namespace player
         bool fallingDirYSetComplete = false;
 
         //패러 글라이딩
-
         bool isParagliding = false;
         private float rotationSpeed = 2f;
 
+        //공격
+        public bool attack { get; private set; } = false;
 
 
         private void Awake()
@@ -93,6 +93,8 @@ namespace player
             inAirState = new InAirState(this, characterController);
             paraglidingState = new ParaglidingState(this, characterController);
             slowDownState = new SlowDownState(this);
+            attackState = new AttackState(this);
+            
 
             //레이어 
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
@@ -123,16 +125,17 @@ namespace player
             //Space 점프
             inputActions.Player.Jump.performed += JumpButton;
 
+            inputActions.Player.Attack.performed += AttackButton;
+
+        }
+
+        private void AttackButton(InputAction.CallbackContext obj)
+        {
+            
         }
 
         private void JumpButton(InputAction.CallbackContext _)
         {
-            //if (characterController.isGrounded == true)
-            //{
-            //    //jumpState.EnterState();
-               
-            //}
-
             if (!isInAir)
             {
                 inAirState.EnterState();
@@ -300,8 +303,6 @@ namespace player
         }
 
         
-        public float turnSmoothTime = 0.1f;
-        float turnSmoothVelocity;
         public void MoveToDir()
         {
             //Vector3 movedis = cameraObject.rotation * new Vector3(moveDir.x, 0, moveDir.z);
