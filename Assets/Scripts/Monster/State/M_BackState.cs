@@ -1,6 +1,7 @@
 using player;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace monster
@@ -23,11 +24,11 @@ namespace monster
 
         public void MoveLogic()
         {
-            Transform recog = monster.transform.GetChild(2);
+            //Transform recog = monster.transform.GetChild(2);
 
-            Collider recogArea = recog.GetComponent<Collider>();
+           // Collider recogArea = recog.GetComponent<Collider>();
 
-            recogArea.enabled = false;
+           // recogArea.enabled = false;
 
             Vector3 direction = monster.spawnPosition - monster.transform.position;
             direction.y = 0;
@@ -51,9 +52,11 @@ namespace monster
 
                 monster.characterController.Move(direction * monster.speed * Time.fixedDeltaTime);
             }
-            if (distance <= 1f)
+            if (distance <= 1)
             {
-                recogArea.enabled = true;
+                // recogArea.enabled = true;
+               
+               monster.StopCoroutine(monster.BackToSpawn());
                 monster.StartCoroutine(monster.OnMove());
                
             }

@@ -36,10 +36,12 @@ namespace monster
         
         public Vector3 direction;
         PlayerInputSystem player;
+        Monster_FOV_Test FOV;
         public CharacterController characterController;
         Animator animator;
         readonly int AnimatorState = Animator.StringToHash("State");
         //현재 상태
+        public bool onMove = false;
 
         public MonsterState monsterCurrentStates;
         MonsterState idleState;              //0
@@ -52,7 +54,8 @@ namespace monster
             
         public void Awake()
         {
-     
+           
+            FOV = FindObjectOfType<Monster_FOV_Test>();
             player = FindObjectOfType<PlayerInputSystem>();
             target = player.transform;
             animator = GetComponent<Animator>();
@@ -73,6 +76,7 @@ namespace monster
         }
         private void Start()
         {
+            onMove = true;
             StartCoroutine(OnMove());
         }
         public void PlayerAnimoatrChage(int state)
@@ -80,27 +84,29 @@ namespace monster
             animator.SetInteger(AnimatorState, state);
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {    
-                StopAllCoroutines();
-                chaseState.EnterState();
-            }
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    if (other.CompareTag("Player"))
+        //    {    
+        //        StopAllCoroutines();
+        //        chaseState.EnterState();
+        //    }
 
-        }
+        //}
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                StartCoroutine(BackToSpawn());
-            }
-        }
+        //private void OnTriggerExit(Collider other)
+        //{
+        //    if (other.CompareTag("Player"))
+        //    {
+        //        StartCoroutine(BackToSpawn());
+        //    }
+        //}
 
         private void FixedUpdate()
         {
-            Debug.Log(monsterCurrentStates);
+
+            Detected();
+            //Debug.Log(monsterCurrentStates);
             monsterCurrentStates.MoveLogic();
         }
 
@@ -122,12 +128,31 @@ namespace monster
         /// 몬스터가 스폰구역으로 복귀 한느 코루틴
         /// </summary>
         /// <returns></returns>
-        IEnumerator BackToSpawn()
+       public IEnumerator BackToSpawn()
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(3);
             backState.EnterState();
         }
 
+        private void Detected()
+        {
+            if (FOV.isCollision && onMove)
+            {
+                StopAllCoroutines();
+                onMove = false;
+                chaseState.EnterState();
+            }
+            if (!FOV.isCollision && onMove == false)
+            {
+                StartCoroutine(BackToSpawn());
+                onMove = true;
+            }
+            
+
+
+
+
+        }
     }
 }
 
