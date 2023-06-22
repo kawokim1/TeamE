@@ -55,6 +55,11 @@ namespace player
         //회전
         Transform cameraObject;
         Vector3 targetDirection = Vector3.zero; //회전하는 방향
+        
+        Vector3 CurrentTargetRotation;
+        Vector3 timeToReachTargetRotation;
+        Vector3 dampedTargetRotationCurrentVelocity;
+        Vector3 dampedTargetRotationPassedTime;
 
         //점프 낙하
         public float lastMemorySpeed = 0.0f;
@@ -294,13 +299,37 @@ namespace player
             animator.SetInteger(AnimatorState, state);
         }
 
+        
+        public float turnSmoothTime = 0.1f;
+        float turnSmoothVelocity;
         public void MoveToDir()
         {
-            Vector3 movedis = cameraObject.rotation * new Vector3(moveDir.x, 0, moveDir.z);
+            //Vector3 movedis = cameraObject.rotation * new Vector3(moveDir.x, 0, moveDir.z);
 
-            moveDirection = new Vector3(movedis.x, moveDirection.y, movedis.z);
-            PlayerRotate();
+            //moveDirection = new Vector3(movedis.x, moveDirection.y, movedis.z);
+
+            //moveDirection = new Vector3(movein)
+            Vector3 direction = new Vector3(movementInput.x, 0, movementInput.y);
+            if (direction.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraObject.eulerAngles.y;
+         
+                //이동 방향
+                moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                moveDirection.Normalize();
+                
+                //회전
+                Quaternion targerRotation = Quaternion.LookRotation(moveDirection);
+                transform.rotation = targerRotation;
+               
+                //스무스 회전
+                //float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                //transform.rotation = Quaternion.Euler(0.0f, angle, 0f);
+            }
+
+            //PlayerRotate();
         }
+
 
         private void PlayerRotate()
         {
