@@ -45,7 +45,7 @@ public class Monster_FOV : MonoBehaviour
             float degree = Mathf.Rad2Deg * theta;
 
             // 시야각 판별
-            if (degree < angleRange / 2f)
+            if (degree <= angleRange *0.5f)
             {
                 isCollision = true;
                 //detected?.Invoke(true);

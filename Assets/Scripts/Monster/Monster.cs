@@ -42,7 +42,7 @@ namespace monster
         readonly int AnimatorState = Animator.StringToHash("State");
         //현재 상태
         public bool onMove = false;
-
+        
         public MonsterState monsterCurrentStates;
         MonsterState idleState;              //0
         MonsterState walkState;       //1
@@ -51,10 +51,10 @@ namespace monster
         public MonsterState melee_AttackState;      //4
         MonsterState long_AttacktState;      //5
         MonsterState dieState;               //6
-            
+        GameObject detectedArea;
         public void Awake()
         {
-           
+           // detectedArea   = transform.GetChild(3).gameObject;
             FOV = FindObjectOfType<Monster_FOV>();
             player = FindObjectOfType<PlayerInputSystem>();
             target = player.transform;
@@ -76,6 +76,7 @@ namespace monster
         }
         private void Start()
         {
+            //detectedArea.SetActive(false);
             onMove = true;
             StartCoroutine(OnMove());
         }
@@ -132,6 +133,7 @@ namespace monster
         {
             yield return new WaitForSeconds(3);
             backState.EnterState();
+           // detectedArea.SetActive(false);
         }
 
         private void Detected()
@@ -141,11 +143,13 @@ namespace monster
                 StopAllCoroutines();
                 onMove = false;
                 chaseState.EnterState();
+               // detectedArea.SetActive(true);
             }
             if (!FOV.isCollision && onMove == false)
             {
                 StartCoroutine(BackToSpawn());
                 onMove = true;
+                
             }
             
 

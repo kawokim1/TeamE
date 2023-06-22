@@ -23,6 +23,7 @@ namespace monster
 
         public void MoveLogic()
         {
+
             float distance = Vector3.Distance(monster.target.position, monster.transform.position);
             if (distance > monster.Distance)
             {
