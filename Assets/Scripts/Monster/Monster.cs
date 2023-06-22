@@ -36,7 +36,7 @@ namespace monster
         
         public Vector3 direction;
         PlayerInputSystem player;
-        Monster_FOV_Test FOV;
+        Monster_FOV FOV;
         public CharacterController characterController;
         Animator animator;
         readonly int AnimatorState = Animator.StringToHash("State");
@@ -55,7 +55,7 @@ namespace monster
         public void Awake()
         {
            
-            FOV = FindObjectOfType<Monster_FOV_Test>();
+            FOV = FindObjectOfType<Monster_FOV>();
             player = FindObjectOfType<PlayerInputSystem>();
             target = player.transform;
             animator = GetComponent<Animator>();

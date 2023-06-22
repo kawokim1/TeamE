@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class Monster_FOV_Test : MonoBehaviour
+public class Monster_FOV : MonoBehaviour
 {
     //Vector3 dir = new Vector3(3,3,3);
     //RaycastHit hit;
