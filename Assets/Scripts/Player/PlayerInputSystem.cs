@@ -39,7 +39,7 @@ namespace player
         PlayerState inAirState;
         PlayerState paraglidingState;
         PlayerState slowDownState ;
-        PlayerState attackState;
+        //PlayerState attackState;
 
         //애니메이션
         //readonly int InputYString = Animator.StringToHash("InputY");
@@ -72,7 +72,7 @@ namespace player
         private float rotationSpeed = 2f;
 
         //공격
-        public bool attack { get; private set; } = false;
+        bool isAttack  = false;
 
 
         private void Awake()
@@ -93,7 +93,7 @@ namespace player
             inAirState = new InAirState(this, characterController);
             paraglidingState = new ParaglidingState(this, characterController);
             slowDownState = new SlowDownState(this);
-            attackState = new AttackState(this);
+            //attackState = new AttackState(this);
             
 
             //레이어 
@@ -125,14 +125,14 @@ namespace player
             //Space 점프
             inputActions.Player.Jump.performed += JumpButton;
 
-            inputActions.Player.Attack.performed += AttackButton;
+            //inputActions.Player.Attack.performed += AttackButton;
 
         }
 
-        private void AttackButton(InputAction.CallbackContext obj)
-        {
-            
-        }
+        //private void AttackButton(InputAction.CallbackContext obj)
+        //{
+        //    attackState.EnterState();
+        //}
 
         private void JumpButton(InputAction.CallbackContext _)
         {
@@ -212,6 +212,16 @@ namespace player
         {
             inputActions.Player.Disable();
         }
+
+        float timer = 0;
+
+        //private void Update()
+        //{
+        //    if(playerCurrentStates == attackState)
+        //    {
+        //        Debug.Log(timer += Time.deltaTime);
+        //    }
+        //}
 
         private void FixedUpdate()
         {
@@ -305,24 +315,27 @@ namespace player
         
         public void MoveToDir()
         {
+
             //Vector3 movedis = cameraObject.rotation * new Vector3(moveDir.x, 0, moveDir.z);
 
             //moveDirection = new Vector3(movedis.x, moveDirection.y, movedis.z);
 
-            //moveDirection = new Vector3(movein)
-            Vector3 direction = new Vector3(movementInput.x, 0, movementInput.y);
+            /////////////////////////////////////////////////////////
+           // Vector3 direction = new Vector3(movementInput.x, 0, movementInput.y);
+            Vector3 direction = new Vector3(moveDir.x, 0, moveDir.z);
             if (direction.magnitude >= 0.1f)
             {
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraObject.eulerAngles.y;
-         
+
                 //이동 방향
-                moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                Vector3 cameraAngleCalculation = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                moveDirection = new Vector3(cameraAngleCalculation.x, moveDirection.y, cameraAngleCalculation.z);
                 moveDirection.Normalize();
-                
+
                 //회전
-                Quaternion targerRotation = Quaternion.LookRotation(moveDirection);
+                Quaternion targerRotation = Quaternion.LookRotation(cameraAngleCalculation);
                 transform.rotation = targerRotation;
-               
+
                 //스무스 회전
                 //float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 //transform.rotation = Quaternion.Euler(0.0f, angle, 0f);

@@ -5,14 +5,20 @@ using UnityEngine;
 
 namespace player
 {
-    public class AttackState : MonoBehaviour, PlayerState
+    public class AttackState : PlayerState
     {
         //어택 0~4
         //강공격
         //대쉬 공격
         //애니메이터 오버라이딩
         //콤보 카운터
-        public int comboCount = 0;
+        int comboCount = 0;
+        int maxComboCount = 4;
+
+        float comboTimer = 0.0f;
+        float maxComboTimer = 1.5f;
+
+        private bool isAttack = false;
 
         PlayerInputSystem playerInputSystem;
         State state = State.Attack;
@@ -21,19 +27,45 @@ namespace player
         {
             this.playerInputSystem = playerInputSystem;
         }
-        private void Update()
-        {
-            //강공격 타이머, 콤보공격 타이머
-        }
 
         public void EnterState()
         {
-            playerInputSystem.playerCurrentStates = this;
+            if(isAttack)
+            {
+                ComboAttack();
+            }
+            else
+            {
+                playerInputSystem.playerCurrentStates = this;
+                isAttack = true;
+                ComboAttack();
+            }
+
+        }
+        public void ComboAttack()
+        {
+            if(comboCount < maxComboCount)
+            {
+                comboTimer = 0.0f;
+                Debug.Log(comboCount++);
+            }
         }
 
         public void MoveLogic()
         {
+            Debug.Log(isAttack);
+            comboTimer += Time.deltaTime;
+            //Debug.Log(comboTimer);
+            if (comboTimer > maxComboTimer)
+            {
+                comboCount = 0;
+                comboTimer = 0.0f;
+                isAttack = false;
+                playerInputSystem.PlayerEnterIdleState();
+                
+            }
 
+            //적한테 살짝 접근
         }
     }
 }
