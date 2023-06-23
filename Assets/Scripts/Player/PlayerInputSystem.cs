@@ -39,7 +39,7 @@ namespace player
         PlayerState inAirState;
         PlayerState paraglidingState;
         PlayerState slowDownState ;
-        //PlayerState attackState;
+        PlayerState attackState;
 
         //애니메이션
         //readonly int InputYString = Animator.StringToHash("InputY");
@@ -93,7 +93,7 @@ namespace player
             inAirState = new InAirState(this, characterController);
             paraglidingState = new ParaglidingState(this, characterController);
             slowDownState = new SlowDownState(this);
-            //attackState = new AttackState(this);
+            attackState = new AttackState(this, animator);
             
 
             //레이어 
@@ -125,14 +125,15 @@ namespace player
             //Space 점프
             inputActions.Player.Jump.performed += JumpButton;
 
-            //inputActions.Player.Attack.performed += AttackButton;
+            //마우스 좌클릭 공격
+            inputActions.Player.Attack.performed += AttackButton;
 
         }
 
-        //private void AttackButton(InputAction.CallbackContext obj)
-        //{
-        //    attackState.EnterState();
-        //}
+        private void AttackButton(InputAction.CallbackContext obj)
+        {
+            attackState.EnterState();
+        }
 
         private void JumpButton(InputAction.CallbackContext _)
         {
@@ -212,8 +213,6 @@ namespace player
         {
             inputActions.Player.Disable();
         }
-
-        float timer = 0;
 
         //private void Update()
         //{

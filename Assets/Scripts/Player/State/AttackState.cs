@@ -21,11 +21,13 @@ namespace player
         private bool isAttack = false;
 
         PlayerInputSystem playerInputSystem;
+        Animator animator;
         State state = State.Attack;
 
-        public AttackState(PlayerInputSystem playerInputSystem)
+        public AttackState(PlayerInputSystem playerInputSystem, Animator animator)
         {
             this.playerInputSystem = playerInputSystem;
+            this.animator = animator;
         }
 
         public void EnterState()
@@ -38,7 +40,8 @@ namespace player
             {
                 playerInputSystem.playerCurrentStates = this;
                 isAttack = true;
-                ComboAttack();
+                playerInputSystem.PlayerAnimoatrChage((int)state);
+                //ComboAttack();
             }
 
         }
@@ -47,7 +50,7 @@ namespace player
             if(comboCount < maxComboCount)
             {
                 comboTimer = 0.0f;
-                Debug.Log(comboCount++);
+                animator.SetInteger("ComboCount", comboCount++);
             }
         }
 
