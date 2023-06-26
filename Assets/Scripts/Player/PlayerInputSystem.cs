@@ -16,7 +16,8 @@ namespace player
         SPRINT,
         InAir,
         Paragliding,
-        SlowDown
+        SlowDown,
+        Attack
     }
     public class PlayerInputSystem : MonoBehaviour
     {
@@ -38,10 +39,13 @@ namespace player
         PlayerState inAirState;
         PlayerState paraglidingState;
         PlayerState slowDownState ;
+        PlayerState attackState;
 
         //애니메이션
         //readonly int InputYString = Animator.StringToHash("InputY");
         readonly int AnimatorState = Animator.StringToHash("State");
+
+        //걷기
         bool walkBool = false;
 
         //입력값
@@ -55,7 +59,7 @@ namespace player
         //회전
         Transform cameraObject;
         Vector3 targetDirection = Vector3.zero; //회전하는 방향
-
+        
         //점프 낙하
         public float lastMemorySpeed = 0.0f;
         bool isInAir = false;
@@ -64,10 +68,11 @@ namespace player
         bool fallingDirYSetComplete = false;
 
         //패러 글라이딩
-
         bool isParagliding = false;
         private float rotationSpeed = 2f;
 
+        //공격
+        bool isAttack  = false;
 
 
         private void Awake()
@@ -88,6 +93,8 @@ namespace player
             inAirState = new InAirState(this, characterController);
             paraglidingState = new ParaglidingState(this, characterController);
             slowDownState = new SlowDownState(this);
+            attackState = new AttackState(this, animator);
+            
 
             //레이어 
             groundLayer = 1 << LayerMask.NameToLayer("Ground");
@@ -118,16 +125,18 @@ namespace player
             //Space 점프
             inputActions.Player.Jump.performed += JumpButton;
 
+            //마우스 좌클릭 공격
+            inputActions.Player.Attack.performed += AttackButton;
+
+        }
+
+        private void AttackButton(InputAction.CallbackContext obj)
+        {
+            attackState.EnterState();
         }
 
         private void JumpButton(InputAction.CallbackContext _)
         {
-            //if (characterController.isGrounded == true)
-            //{
-            //    //jumpState.EnterState();
-               
-            //}
-
             if (!isInAir)
             {
                 inAirState.EnterState();
@@ -204,6 +213,14 @@ namespace player
         {
             inputActions.Player.Disable();
         }
+
+        //private void Update()
+        //{
+        //    if(playerCurrentStates == attackState)
+        //    {
+        //        Debug.Log(timer += Time.deltaTime);
+        //    }
+        //}
 
         private void FixedUpdate()
         {
@@ -294,13 +311,38 @@ namespace player
             animator.SetInteger(AnimatorState, state);
         }
 
+        
         public void MoveToDir()
         {
-            Vector3 movedis = cameraObject.rotation * new Vector3(moveDir.x, 0, moveDir.z);
 
-            moveDirection = new Vector3(movedis.x, moveDirection.y, movedis.z);
-            PlayerRotate();
+            //Vector3 movedis = cameraObject.rotation * new Vector3(moveDir.x, 0, moveDir.z);
+
+            //moveDirection = new Vector3(movedis.x, moveDirection.y, movedis.z);
+
+            /////////////////////////////////////////////////////////
+           // Vector3 direction = new Vector3(movementInput.x, 0, movementInput.y);
+            Vector3 direction = new Vector3(moveDir.x, 0, moveDir.z);
+            if (direction.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraObject.eulerAngles.y;
+
+                //이동 방향
+                Vector3 cameraAngleCalculation = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                moveDirection = new Vector3(cameraAngleCalculation.x, moveDirection.y, cameraAngleCalculation.z);
+                moveDirection.Normalize();
+
+                //회전
+                Quaternion targerRotation = Quaternion.LookRotation(cameraAngleCalculation);
+                transform.rotation = targerRotation;
+
+                //스무스 회전
+                //float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                //transform.rotation = Quaternion.Euler(0.0f, angle, 0f);
+            }
+
+            //PlayerRotate();
         }
+
 
         private void PlayerRotate()
         {
