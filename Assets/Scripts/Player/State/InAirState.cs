@@ -32,7 +32,7 @@ namespace player
               playerInputSystem.moveDirection.z * lastSpeed)
               * Time.fixedDeltaTime);
 
-            playerInputSystem.UseGravity();
+            playerInputSystem.InAirUseGravity();
         }
     }
 

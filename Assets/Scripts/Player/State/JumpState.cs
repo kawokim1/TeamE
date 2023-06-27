@@ -44,7 +44,7 @@ namespace player
                * Time.fixedDeltaTime);
 
             //characterController.Move(playerInputSystem.moveDirection * 8 * Time.fixedDeltaTime);
-            playerInputSystem.UseGravity();
+            playerInputSystem.InAirUseGravity();
         }
     }
 }

@@ -21,13 +21,11 @@ namespace player
     }
     public class PlayerInputSystem : MonoBehaviour
     {
-        
         //컴퍼넌트
         //Rigidbody playerRigidbody;
         PlayerInputAction inputActions;
         public CharacterController characterController;
         Animator animator;
-
 
         //현재 상태
         public PlayerState playerCurrentStates;
@@ -72,8 +70,14 @@ namespace player
         private float rotationSpeed = 2f;
 
         //공격
-        bool isAttack  = false;
+        public bool isAttack { get; set; } = false;
+        public bool attackMove { get; private set; } = false;
 
+
+        //무기 소환
+
+        public GameObject handWeapon;
+        public GameObject backWeapon;
 
         private void Awake()
         {
@@ -82,7 +86,6 @@ namespace player
             characterController = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
             cameraObject = Camera.main.transform;
-
 
             //상태
             idleState = new IdleState(this);
@@ -93,7 +96,7 @@ namespace player
             inAirState = new InAirState(this, characterController);
             paraglidingState = new ParaglidingState(this, characterController);
             slowDownState = new SlowDownState(this);
-            attackState = new AttackState(this, animator);
+            attackState = new AttackState(this, animator, characterController);
             
 
             //레이어 
@@ -165,6 +168,7 @@ namespace player
         private void WalkButton(InputAction.CallbackContext _)
         {
             walkBool = walkBool ? false : true;
+
             if (walkBool && movementInput != Vector2.zero)
                 walkState.EnterState();
             else if (!walkBool && movementInput != Vector2.zero)
@@ -173,7 +177,7 @@ namespace player
 
         private void SprintButton(InputAction.CallbackContext _)
         {
-            if(movementInput != Vector2.zero && !isInAir)
+            if(movementInput != Vector2.zero && !isAttack && !isInAir)
             {
                 sprintState.EnterState();
                 walkBool = false;
@@ -189,8 +193,15 @@ namespace player
             moveDir.x = movementInput.x;
             moveDir.z = movementInput.y;
 
-            if(!isInAir)
+            if(!isAttack && !isInAir)
             {
+
+                if (playerCurrentStates is AttackState)
+                {
+                    AttackState state = playerCurrentStates as AttackState;
+                    state.ExitAttackState();
+                }
+
                 if (movementInput == Vector2.zero)
                 {
                     //idleState.EnterState();
@@ -204,6 +215,9 @@ namespace player
                 {
                     walkState.EnterState();
                 }
+
+
+               
             }
            
         }
@@ -224,6 +238,7 @@ namespace player
 
         private void FixedUpdate()
         {
+            Debug.Log(isAttack);
             playerCurrentStates.MoveLogic();
         }
 
@@ -251,7 +266,14 @@ namespace player
         }
 
 
-        public void UseGravity(float gravity = -9.81f)
+        public void UseGravity(float gravity = -9.81f) //비행중 낙하
+        {
+            if (characterController.isGrounded == false)
+            {
+                moveDirection.y += gravity * Time.fixedDeltaTime;
+            }
+        }
+        public void InAirUseGravity(float gravity = -9.81f) //비행중 낙하
         {
             if (characterController.isGrounded == false)
             {
@@ -386,6 +408,13 @@ namespace player
             transform.rotation = targerRotation;
             transform.rotation = playerRoation;
         }
-    }
 
+        ///공격 애니메이션 정지 이동 외부에서 각 애니메이션에 부여
+        public void AttackMoveFlag()
+        {
+            attackMove = attackMove ? false : true;
+            Debug.Log(attackMove);
+        }
+
+    }
 }
