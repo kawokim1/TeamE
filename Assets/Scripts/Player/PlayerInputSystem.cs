@@ -169,16 +169,28 @@ namespace player
         {
             walkBool = walkBool ? false : true;
 
-            if (walkBool && movementInput != Vector2.zero)
-                walkState.EnterState();
-            else if (!walkBool && movementInput != Vector2.zero)
-                runState.EnterState();
+            if(movementInput != Vector2.zero && !isAttack && !isInAir)
+            {
+                playerCurrentStates = walkBool ? walkState : runState;
+                playerCurrentStates.EnterState();
+            }
+
+            //if (movementInput != Vector2.zero && walkBool)
+            //    walkState.EnterState();
+            //else if (!walkBool && movementInput != Vector2.zero)
+            //    runState.EnterState();
         }
 
         private void SprintButton(InputAction.CallbackContext _)
         {
             if(movementInput != Vector2.zero && !isAttack && !isInAir)
             {
+                if(playerCurrentStates is AttackState)
+                {
+                    AttackState at = playerCurrentStates as AttackState;
+                    at.ExitAttackState();
+                }    
+
                 sprintState.EnterState();
                 walkBool = false;
             }

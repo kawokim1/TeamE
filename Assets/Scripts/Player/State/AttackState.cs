@@ -81,19 +81,32 @@ namespace player
 
             if (comboTimer > maxComboTimer)
             {
-                SummonWeapon(false);
-                ExitAttackState();
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+                {
+                    SummonWeapon(false);
+                    playerInputSystem.PlayerEnterIdleState();
+                }
+                ResetCombo();
             }
+
+
+
+            
         }
 
         public void ExitAttackState()
         {
+            ResetCombo();
+            SummonWeapon(false);
+        }
+
+        private void ResetCombo()
+        {
             comboCount = 0;
             comboTimer = 0.0f;
             playerInputSystem.isAttack = false;
-            //playerInputSystem.PlayerEnterIdleState();
         }
-        public void SummonWeapon(bool summon)
+        private void SummonWeapon(bool summon)
         {
             playerInputSystem.handWeapon.SetActive(summon);
             playerInputSystem.backWeapon.SetActive(!summon);
