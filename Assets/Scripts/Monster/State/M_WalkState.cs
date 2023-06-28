@@ -68,6 +68,7 @@ namespace monster
             }
             monster.targetPosition = new Vector3(x, 0, z);
             monster.moveDirection = monster.targetPosition - monster.transform.position;
+            monster.dir.y = 0f;
             monster.dir = monster.moveDirection.normalized;
 
         }

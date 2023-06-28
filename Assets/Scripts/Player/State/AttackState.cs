@@ -56,7 +56,7 @@ namespace player
 
         public void MoveLogic()
         {
-            Debug.Log(isAttack);
+            //Debug.Log(isAttack);
             comboTimer += Time.deltaTime;
             //Debug.Log(comboTimer);
             if (comboTimer > maxComboTimer)

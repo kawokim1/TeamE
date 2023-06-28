@@ -26,7 +26,7 @@ namespace monster
         public float gravity { get; private set; } = -9.81f;                     // 중력
         public Quaternion targetRotation;                                //플레이어의 방향 멤버 변수
         public float rotationSpeed { get; private set; } = 5.0f;          //타겟을 쳐다보는데 걸리는 속도
-        public float Distance { get; private set; } = 1;                  //몬스터와 플레이어의 최대 근접 거리 및 공격발동 거리
+        public float Distance { get; private set; } = 1.5f;                  //몬스터와 플레이어의 최대 근접 거리 및 공격발동 거리
         public Quaternion spawnRotation;                                 //스폰포지션의 방향
         float wait;
         public Vector3 spawnPosition;
@@ -36,9 +36,10 @@ namespace monster
         
         public Vector3 direction;
         PlayerInputSystem player;
-        Monster_FOV FOV;
+        Monster_FOV FOV1;
+        Monster_FOV_1 FOV2;
         public CharacterController characterController;
-        Animator animator;
+        public Animator animator;
         readonly int AnimatorState = Animator.StringToHash("State");
         //현재 상태
         public bool onMove = false;
@@ -51,11 +52,12 @@ namespace monster
         public MonsterState melee_AttackState;      //4
         MonsterState long_AttacktState;      //5
         MonsterState dieState;               //6
-        GameObject detectedArea;
+   
         public void Awake()
         {
            // detectedArea   = transform.GetChild(3).gameObject;
-            FOV = FindObjectOfType<Monster_FOV>();
+            FOV1 = FindObjectOfType<Monster_FOV>();
+            FOV2= FindObjectOfType<Monster_FOV_1>();
             player = FindObjectOfType<PlayerInputSystem>();
             target = player.transform;
             animator = GetComponent<Animator>();
@@ -84,24 +86,8 @@ namespace monster
         {
             animator.SetInteger(AnimatorState, state);
         }
-
-        //private void OnTriggerEnter(Collider other)
-        //{
-        //    if (other.CompareTag("Player"))
-        //    {    
-        //        StopAllCoroutines();
-        //        chaseState.EnterState();
-        //    }
-
-        //}
-
-        //private void OnTriggerExit(Collider other)
-        //{
-        //    if (other.CompareTag("Player"))
-        //    {
-        //        StartCoroutine(BackToSpawn());
-        //    }
-        //}
+       
+       
 
         private void FixedUpdate()
         {
@@ -138,14 +124,14 @@ namespace monster
 
         private void Detected()
         {
-            if (FOV.isCollision && onMove)
+            if ((FOV1.isCollision || FOV2.isCollision) && onMove)
             {
                 StopAllCoroutines();
                 onMove = false;
                 chaseState.EnterState();
                // detectedArea.SetActive(true);
             }
-            if (!FOV.isCollision && onMove == false)
+            if (!FOV1.isCollision && !FOV2.isCollision && onMove == false)
             {
                 StartCoroutine(BackToSpawn());
                 onMove = true;

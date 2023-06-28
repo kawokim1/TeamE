@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -224,10 +224,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 386608468, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1565474108}
+    - target: {fileID: 1076924414, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1565474108}
     - target: {fileID: 1347283436, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 3276604009695863178, guid: c043420a49f399d4794782a0d21b6a34, type: 3}
+      objectReference: {fileID: 1565474108}
     - target: {fileID: 4999659514013741679, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -397,6 +405,11 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!4 &1565474108 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3276604009695863178, guid: c043420a49f399d4794782a0d21b6a34, type: 3}
+  m_PrefabInstance: {fileID: 3276604009506114129}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1847216773 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3276604011081482452, guid: c043420a49f399d4794782a0d21b6a34, type: 3}

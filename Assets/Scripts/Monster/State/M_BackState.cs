@@ -11,9 +11,9 @@ namespace monster
     {
         State state = State.BACK;
         Monster monster;
-        public M_BackState(Monster monsterTEST)
+        public M_BackState(Monster monster)
         {
-            this.monster = monsterTEST;
+            this.monster = monster;
         }
 
         public void EnterState()
