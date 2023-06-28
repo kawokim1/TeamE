@@ -12,8 +12,6 @@ namespace player
         private float dropSpeed = -3f;
         float paraglidingSpeed = 5.0f;
 
-
-
         public ParaglidingState(PlayerInputSystem playerInputSystem, CharacterController characterController)
         {
             this.playerInputSystem = playerInputSystem;
