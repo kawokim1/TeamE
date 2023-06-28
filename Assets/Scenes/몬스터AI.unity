@@ -605,18 +605,6 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 83520029}
-    - target: {fileID: 4821352629301259722, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
-      propertyPath: m_Height
-      value: 1.1156498
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821352629301259722, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821352629301259722, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
-      propertyPath: m_Center.y
-      value: 0.653465
-      objectReference: {fileID: 0}
     - target: {fileID: 4999659514013741679, guid: dddd724ac0419d1428ce42b89bb7e6ac, type: 3}
       propertyPath: m_RootOrder
       value: 2

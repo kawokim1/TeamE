@@ -2538,11 +2538,11 @@ CapsuleCollider:
   m_GameObject: {fileID: 5632186165776918741}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.25290728
-  m_Height: 1.1569201
+  m_Height: 1.1156498
   m_Direction: 1
-  m_Center: {x: -0.0003464222, y: 0.63282984, z: 0.093159646}
+  m_Center: {x: -0.0003464222, y: 0.653465, z: 0.093159646}
 --- !u!143 &1771923725
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2582,7 +2582,9 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   direction: {x: 0, y: 0, z: 0}
   characterController: {fileID: 0}
+  animator: {fileID: 0}
   onMove: 0
+  isAttack: 0
 --- !u!1 &5643674289837326076
 GameObject:
   m_ObjectHideFlags: 0
