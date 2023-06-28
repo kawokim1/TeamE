@@ -29,6 +29,7 @@ namespace monster
             monster.isAttack = false;
 
             Vector3 direction = monster.target.position - monster.transform.position;
+            direction.y = 0;
             monster.targetRotation = Quaternion.LookRotation(direction);
             monster.transform.rotation = Quaternion.Slerp(monster.transform.rotation, monster.targetRotation, monster.rotationSpeed * Time.deltaTime);
 
