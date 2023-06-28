@@ -250,7 +250,7 @@ namespace player
 
         private void FixedUpdate()
         {
-            Debug.Log(isAttack);
+            //Debug.Log(isAttack);
             playerCurrentStates.MoveLogic();
         }
 
@@ -425,7 +425,7 @@ namespace player
         public void AttackMoveFlag()
         {
             attackMove = attackMove ? false : true;
-            Debug.Log(attackMove);
+            //Debug.Log(attackMove);
         }
 
     }

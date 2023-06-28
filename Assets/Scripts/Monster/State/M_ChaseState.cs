@@ -30,8 +30,8 @@ namespace monster
 
             Vector3 direction = monster.target.position - monster.transform.position;
             direction.y = 0;
-            monster.targetRotation = Quaternion.LookRotation(direction);
-            monster.transform.rotation = Quaternion.Slerp(monster.transform.rotation, monster.targetRotation, monster.rotationSpeed * Time.deltaTime);
+            //monster.targetRotation = Quaternion.LookRotation(direction);
+            //monster.transform.rotation = Quaternion.Slerp(monster.transform.rotation, monster.targetRotation, monster.rotationSpeed * Time.deltaTime);
 
             float distance = Vector3.Distance(monster.target.position, monster.transform.position);
             if (distance > monster.Distance && !monster.isAttack)
@@ -45,8 +45,8 @@ namespace monster
                     direction.y += monster.gravity * Time.fixedDeltaTime;
                 }
 
-
-                monster.characterController.Move(direction * monster.speed * Time.fixedDeltaTime);
+                monster.nav.SetDestination(monster.endpoint.position);
+                //monster.characterController.Move(direction * monster.speed * Time.fixedDeltaTime);
 
             }
             if(distance <= monster.Distance) 

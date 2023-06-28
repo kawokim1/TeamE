@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 namespace monster
@@ -38,6 +39,7 @@ namespace monster
         PlayerInputSystem player;
         Monster_FOV FOV1;
         Monster_FOV_1 FOV2;
+       public NavMeshAgent nav;
         public CharacterController characterController;
         public Animator animator;
         readonly int AnimatorState = Animator.StringToHash("State");
@@ -53,10 +55,12 @@ namespace monster
         public MonsterState melee_AttackState;      //4
         MonsterState long_AttacktState;      //5
         MonsterState dieState;               //6
-   
+        public Transform startpoint;
+        public Transform endpoint;
         public void Awake()
         {
-           // detectedArea   = transform.GetChild(3).gameObject;
+            startpoint = transform;
+            nav = GetComponent<NavMeshAgent>();
             FOV1 = FindObjectOfType<Monster_FOV>();
             FOV2= FindObjectOfType<Monster_FOV_1>();
             player = FindObjectOfType<PlayerInputSystem>();
