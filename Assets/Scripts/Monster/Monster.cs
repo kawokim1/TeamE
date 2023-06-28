@@ -43,6 +43,7 @@ namespace monster
         readonly int AnimatorState = Animator.StringToHash("State");
         //현재 상태
         public bool onMove = false;
+        public bool isAttack = true;
         
         public MonsterState monsterCurrentStates;
         MonsterState idleState;              //0
@@ -80,6 +81,7 @@ namespace monster
         {
             //detectedArea.SetActive(false);
             onMove = true;
+            isAttack = false;
             StartCoroutine(OnMove());
         }
         public void PlayerAnimoatrChage(int state)

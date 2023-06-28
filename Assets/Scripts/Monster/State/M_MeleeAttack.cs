@@ -14,7 +14,7 @@ namespace monster
    State state = State.MELEE_ATTACK;
 
 
-        bool isAttack = true;
+        
         public M_MeleeAttackState(Monster monster)
         {
             
@@ -35,12 +35,12 @@ namespace monster
             monster.transform.rotation = Quaternion.Slerp(monster.transform.rotation, monster.targetRotation, monster.rotationSpeed * Time.deltaTime);
             
             float distance = Vector3.Distance(monster.target.position, monster.transform.position);
-            if (distance > monster.Distance && isAttack)
+            if (distance > monster.Distance && monster.isAttack)
             {
               
                 if (monster.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
-                    isAttack = false;
+                    monster.isAttack = false;
                     monster.chaseState.EnterState();
                 }
                

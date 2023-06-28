@@ -26,12 +26,14 @@ namespace monster
 
         public void MoveLogic()
         {
+            monster.isAttack = false;
+
             Vector3 direction = monster.target.position - monster.transform.position;
             monster.targetRotation = Quaternion.LookRotation(direction);
             monster.transform.rotation = Quaternion.Slerp(monster.transform.rotation, monster.targetRotation, monster.rotationSpeed * Time.deltaTime);
 
             float distance = Vector3.Distance(monster.target.position, monster.transform.position);
-            if (distance > monster.Distance)
+            if (distance > monster.Distance && !monster.isAttack)
             {
                 dir = monster.target.position - monster.transform.position;
                 dir.y = 0;
@@ -48,6 +50,7 @@ namespace monster
             }
             if(distance <= monster.Distance) 
             {
+                monster.isAttack = true;
                 monster.melee_AttackState.EnterState();
             }
            
